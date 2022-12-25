@@ -1,6 +1,7 @@
 <template>
-  <div id="intro_logo" class="shadow-2xl border-[0.7rem] border-[#CAF0F8] rounded-md bg-black col-span-3 row-span-3 row-start-4 col-start-3 w-full">
-    <img class="w-full" src="./images/checkers_logo.png" alt="Checkers logo">
+  <div id="intro_logo" class="col-span-3 row-span-3 row-start-4 col-start-2 w-full col-end-8 flex flex-col justify-evenly items-center">
+    <img class="shadow-2xl border-[0.7rem] border-[#CAF0F8] rounded-md w-28" src="./images/checkers_logo.png" alt="Checkers logo">
+    <p class=" font-mono font-semibold text-[#CAF0F8] tracking-[.5rem]">CHECKERS</p>
   </div>
   <!-- <div class=" bg-slate-50 col-span-3 col-start-2"></div> -->
 </template>

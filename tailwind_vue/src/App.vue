@@ -1,5 +1,8 @@
 <template>
-  
+  <div id="intro_logo" class="shadow-2xl border-[0.7rem] border-[#CAF0F8] rounded-md bg-black col-span-3 row-span-3 row-start-4 col-start-3 w-full">
+    <img class="w-full" src="./images/checkers_logo.png" alt="Checkers logo">
+  </div>
+  <!-- <div class=" bg-slate-50 col-span-3 col-start-2"></div> -->
 </template>
 
 <script>
@@ -28,7 +31,7 @@
       }
     },
     mounted() {
-      this.addData();
+      // this.addData();
     }
   }
 
@@ -36,7 +39,11 @@
 
 <style>
 html {
+  background-color: #0077B6;
+}
+#app {
   height: 100vh;
-  font-size: 20px;
+  display: grid;
+  grid-template: repeat(12, 1fr) / 1rem repeat(6, 1fr) 1rem;
 }
 </style>

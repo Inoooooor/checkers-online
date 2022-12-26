@@ -6,10 +6,18 @@
         class=" w-full h-[12.5%] flex"
         >
         <span 
+          id="field_square"
           v-bind:class="`row_num${field.indexOf(y)}`"
           v-for="x in y"
-          class=" h-full w-[12.5%]"
+          class=" h-full w-[12.5%] flex justify-center items-center"
+          @click="coordination(y, this)"
           >
+          <div class=" w-[80%] h-[80%] bg-white rounded-full"
+            v-if="x == 1">
+          </div>
+          <div class=" w-[80%] h-[80%] bg-black rounded-full"
+            v-if="x == 2">
+          </div>
         </span>
       </div>
     </div>
@@ -36,7 +44,7 @@
                 if (x % 2 == 0) {
                   this.field[y][x] = 1;
                 }
-            } else if (y % 2 == 1 && y >= 5) {
+            } else if (y % 2 == 1 && y >= 5) {     /* Drawing black checkers. 2 - black checker */
               if (x % 2 == 0) {
                 this.field[y][x] = 2;
               }
@@ -46,14 +54,17 @@
                 }
             }
           }
-          console.log(this.field[y]);
+          // console.log(this.field[y]);
           // break;
         }
+      },
+      coordination(y, x) {
+        console.log(this.field.indexOf(y), x);
       }
     },
     mounted() {
-      // console.log(this.field);
       this.initRender();
+      console.log(this.field[0][1]);
     }
   }
 
@@ -61,11 +72,11 @@
 
 <style>
 .row_num1:nth-child(odd), .row_num3:nth-child(odd), .row_num5:nth-child(odd), .row_num7:nth-child(odd) {
-  background: black;
+  background: #0077B6;
 }
 
 .row_num2:nth-child(even), .row_num4:nth-child(even), .row_num6:nth-child(even), .row_num0:nth-child(even) {
-  background: black;
+  background: #0077B6;
 }
 
 </style>

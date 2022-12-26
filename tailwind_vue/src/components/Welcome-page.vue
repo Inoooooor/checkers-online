@@ -4,7 +4,7 @@
     <p class=" font-mono font-semibold text-[#CAF0F8] tracking-[.5rem]">CHECKERS</p>
   </div>
   <button 
-    @click="this.$router.push('/login')"
+    @click="this.$router.push('/game')"
     class="col-span-4 col-start-3 col-end-7 row-start-[9] font-mono text-2xl bg-[#CAF0F8] rounded-xl text-[#03045E]"
     >Play</button>
 </template>

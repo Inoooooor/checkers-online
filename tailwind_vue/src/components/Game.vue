@@ -71,21 +71,32 @@
         console.log(this.field.indexOf(y), y.indexOf(x));
       },
       chosenCheckerHint(y, x) {
+        this.cleanHints();
         const y_axis = this.field.indexOf(y);
         const x_axis = y.indexOf(x);
-        let freindsAround = 0;
+        let emptySquaresAround = 0;
 
         // Analyzing chosen checker's surroundings
         for (let i = y_axis - 1; i < y_axis + 2; i++) {
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
             if (i == y_axis && j == x_axis) continue;
             if (i > 7) break; /* Escaped counting unexisting squares at bottom */
-            if (this.field[i][j] > 12) freindsAround++;
+            if (this.field[i][j] == 0 && i == y_axis - 1 && j % 2 == 1) {
+              emptySquaresAround++;
+              this.field[i][j] = 100;
+            } 
           }
         }
-        console.log('Friends around:',freindsAround);
-        // this.field[y_axis - 1][x_axis - 1] = 100;
-        // this.field[y_axis - 1][x_axis + 1] = 100;
+        console.log('empty Squares around:', emptySquaresAround);
+      },
+      cleanHints() {
+        for (let row in this.field) {
+          for (let col in this.field[row]) {
+            if (this.field[row][col] == 100) {
+              this.field[row][col] = 0;
+            }
+          }
+        }
       }
     },
     mounted() {

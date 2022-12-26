@@ -21,6 +21,9 @@
           <div @click="coordination(y, x)" class=" w-full h-full bg-white bg-opacity-50"
             v-if="x == 100">
           </div>
+          <div @click="cleanHints" class=" w-full h-full"
+            v-if="x == 0">
+          </div>
         </span>
       </div>
     </div>

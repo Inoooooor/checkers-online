@@ -14,7 +14,7 @@
           >
           <div 
             id="white_checker"
-            @click="coordination(y, x)" 
+            @click="chosenCheckerHint(y, x)" 
             class=" w-[80%] h-[80%] bg-white rounded-full"
             v-if="x.isWhite">
           </div>
@@ -48,7 +48,7 @@
     data() {
       return {
         isChosen: 1,
-        field: Array(8).fill().map(() => Array(8).fill().map((item, index) => ({id: index, isChosen: 0, isChecker: 0, isWhite: 0, isBlack: 0, isHinted: 0}))),
+        field: Array(8).fill().map(() => Array(8).fill().map((item, index) => ({id: index, isChosen: 0, isChecker: 0, isWhite: 0, isBlack: 0, isHinted: 0, isPlayble: 0}))),
       }
     },
     methods: {
@@ -60,31 +60,40 @@
             // idCount++;
           }
         }
-        console.log(this.field);
+        // console.log(this.field);
       },
-      initRender() {
+      // That function below draws checkers and declare playable squares
+      initRender() {    
         for (let y in this.field) {
           for (let x in this.field[y]) {
             if (y % 2 == 0 && y <= 2) {   /* Drawing white checkers. */
               if (x % 2 == 1) {
                 this.field[y][x].isWhite = 1;
                 this.field[y][x].isChecker = 1;
+                this.field[y][x].isPlayble = 1;
               }
             } else if (y % 2 == 1 && y <= 2) {
                 if (x % 2 == 0) {
                   this.field[y][x].isWhite = 1;
                   this.field[y][x].isChecker = 1;
+                  this.field[y][x].isPlayble = 1;
                 }
             } else if (y % 2 == 1 && y >= 5) {     /* Drawing black checkers. */
               if (x % 2 == 0) {
                 this.field[y][x].isBlack = 1;
                 this.field[y][x].isChecker = 1;
+                this.field[y][x].isPlayble = 1;
               }
             } else if (y % 2 == 0 && y >= 5) {
                 if (x % 2 == 1) {
                   this.field[y][x].isBlack = 1;
                   this.field[y][x].isChecker = 1;
+                  this.field[y][x].isPlayble = 1;
                 }
+            } else if (y == 3 && x % 2 == 0) {
+              this.field[y][x].isPlayble = 1;         /* isPlayable prop is for fields that will be able to play through all the game. I mean you couldn't play white squares, right :-) */
+            } else if (y == 4 && x % 2 == 1) {
+              this.field[y][x].isPlayble = 1;
             }
           }
           // console.log(this.field[y]);
@@ -94,18 +103,25 @@
       coordination(y, x) {
         console.log(this.field.indexOf(y), y.indexOf(x));
       },
+      choosingChecker(y, x) {
+        this.field[this.field.indexOf(y)][y.indexOf(x)].isChosen = 1;
+        if (this.field[this.field.indexOf(y)][y.indexOf(x)].isChosen) console.log('chosen');
+        console.log(this.field);
+      },
       chosenCheckerHint(y, x) {
+        this.cleanChoice();
+        this.choosingChecker(y, x);
         this.cleanHints();
         const y_axis = this.field.indexOf(y);
         const x_axis = y.indexOf(x);
         let emptySquaresAround = 0;
-        console.log(x_axis);
+        // console.log(x_axis);
         // Analyzing chosen checker's surroundings
         for (let i = y_axis - 1; i < y_axis + 2; i++) {
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
             if (i == y_axis && j == x_axis) continue;
-            if (i > 7) break; /* Escaped counting unexisting squares at bottom */
-            if (this.field[i][j].isChecker == 0 && i == y_axis - 1 && j % 2 == 1) {
+            if (i < 0 || i > 7 || j < 0 || j > 7) continue; /* Escaped counting unexisting squares */
+            if (!this.field[i][j].isChecker && this.field[i][j].isPlayble) {   /*  && i == y_axis - 1  */
               emptySquaresAround++;
               this.field[i][j].isHinted = 1;
             } 
@@ -114,7 +130,7 @@
         console.log('empty Squares around:', emptySquaresAround);
       },
       cleanHints() {
-        console.log('workds!');
+        // console.log('workds!');
         for (let row in this.field) {
           for (let col in this.field[row]) {
             if (this.field[row][col].isHinted == 1) {
@@ -122,6 +138,15 @@
             }
           }
         }
+      },
+      cleanChoice() {
+        for (let row in this.field) {
+          for (let col in this.field[row]) {
+            if (this.field[row][col].isChosen == 1) {
+              this.field[row][col].isChosen = 0;
+            }
+          } 
+        }       
       }
     },
     mounted() {

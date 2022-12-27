@@ -130,50 +130,13 @@ export default {
       console.log(this.field);
     },
     chosenCheckerHint(y, x) {
+      const y_axis = this.field.indexOf(y);
+      const x_axis = y.indexOf(x);
       this.cleanChoice();
       this.choosingChecker(y, x);
       this.cleanHints();
       this.enemyDetection(y, x);
-      const y_axis = this.field.indexOf(y);
-      const x_axis = y.indexOf(x);
-      let emptySquaresAround = 0;
-      // console.log(x_axis);
-      // Analyzing chosen checker's surroundings
-      // if checker is black we analyze only top line of chozen analyze block if checker is white we do vice versa
-      if (x.isBlack) { 
-        for (let i = y_axis - 1; i < y_axis + 2; i++) {   /* Trick is at this line in i declaration */
-          for (let j = x_axis - 1; j < x_axis + 2; j++) {
-            if (i == y_axis && j == x_axis) continue;
-            if (i < 0 || i > 7 || j < 0 || j > 7) {
-              continue; /* Escaped counting unexisting squares */
-            }
-            // this.field[i][j].isWhite ? this.field[y_axis][x_axis].isEnemyNear = 1 : this.field[y_axis][x_axis].isEnemyNear = 0;
-            // this.field[y_axis][x_axis].isEnemyNear = (this.field[i][j].isWhite ? 1 : 0);
-            if (!this.field[i][j].isChecker && this.field[i][j].isPlayble && i == y_axis - 1) {
-              /*  && i == y_axis - 1  */
-              emptySquaresAround++;
-              this.field[i][j].isHinted = 1;
-            }
-          }
-        } 
-      } else {
-          for (let i = y_axis - 1; i < y_axis + 2; i++) { /* Trick is at this line in i declaration */
-            for (let j = x_axis - 1; j < x_axis + 2; j++) {
-              if (i == y_axis && j == x_axis) continue;
-              if (i < 0 || i > 7 || j < 0 || j > 7) {
-                continue; /* Escaped counting unexisting squares */
-              }
-              if (!this.field[i][j].isChecker && this.field[i][j].isPlayble && i == y_axis + 1) {
-                /*  && i == y_axis - 1  */
-                emptySquaresAround++;
-                this.field[i][j].isHinted = 1;
-              }
-            }
-          } 
-
-      } 
-      
-      // console.log("empty Squares around:", emptySquaresAround);
+      this.renderHints(y, x);
     },
     cleanHints() {
       // console.log('workds!');
@@ -201,7 +164,7 @@ export default {
         for (let j = x_axis - 1; j < x_axis + 2; j++) {
           // if (i == y_axis && j == x_axis) continue;
           //  /* Escaped counting unexisting squares */
-          if (i < 0 || i > 7 || j < 0 || j > 7) { 
+          if (i < 0 || i > 7 || j < 0 || j > 7) {
             continue;
           }
           if (this.field[i][j].isChosen) {
@@ -220,8 +183,9 @@ export default {
       const y_axis = this.field.indexOf(y);
       const x_axis = y.indexOf(x);
       this.field[y_axis][x_axis].isEnemyNear = 0;
-      if (x.isBlack) { 
-        for (let i = y_axis - 1; i < y_axis + 2; i++) {   /* Trick is at this line in i declaration */
+      if (x.isBlack) {
+        for (let i = y_axis - 1; i < y_axis + 2; i++) {
+          /* Trick is at this line in i declaration */
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
             if (i == y_axis && j == x_axis) continue;
             if (i < 0 || i > 7 || j < 0 || j > 7) {
@@ -232,25 +196,67 @@ export default {
               return;
             }
           }
-        } 
+        }
       } else {
-          this.field[y_axis][x_axis].isEnemyNear = 0;
-          for (let i = y_axis - 1; i < y_axis + 2; i++) { /* Trick is at this line in i declaration */
-            for (let j = x_axis - 1; j < x_axis + 2; j++) {
-              if (i == y_axis && j == x_axis) continue;
-              if (i < 0 || i > 7 || j < 0 || j > 7) {
-                continue; /* Escaped counting unexisting squares */
-              }
-              if (this.field[i][j].isBlack) {
+        this.field[y_axis][x_axis].isEnemyNear = 0;
+        for (let i = y_axis - 1; i < y_axis + 2; i++) {
+          /* Trick is at this line in i declaration */
+          for (let j = x_axis - 1; j < x_axis + 2; j++) {
+            if (i == y_axis && j == x_axis) continue;
+            if (i < 0 || i > 7 || j < 0 || j > 7) {
+              continue; /* Escaped counting unexisting squares */
+            }
+            if (this.field[i][j].isBlack) {
               this.field[y_axis][x_axis].isEnemyNear = 1;
               return;
             }
+          }
+        }
+      }
+    },
+    renderHints(y, x) {
+      const y_axis = this.field.indexOf(y);
+      const x_axis = y.indexOf(x);
+      // Analyzing chosen checker's surroundings
+      // if checker is black we analyze only top line of chozen analyze block if checker is white we do vice versa
+      if (x.isBlack) {
+        for (let i = y_axis - 1; i < y_axis + 2; i++) {
+          /* Trick is at this line in i declaration */
+          for (let j = x_axis - 1; j < x_axis + 2; j++) {
+            if (i == y_axis && j == x_axis) continue;
+            if (i < 0 || i > 7 || j < 0 || j > 7) {
+              continue; /* Escaped counting unexisting squares */
             }
-          } 
+            if (
+              !this.field[i][j].isChecker &&
+              this.field[i][j].isPlayble &&
+              i == y_axis - 1 /* And trick is here */
+            ) {
+              this.field[i][j].isHinted = 1;
+            }
+          }
+        }
+      } else {
+        for (let i = y_axis - 1; i < y_axis + 2; i++) {
+          /* Trick is at this line in i declaration */
+          for (let j = x_axis - 1; j < x_axis + 2; j++) {
+            if (i == y_axis && j == x_axis) continue;
+            if (i < 0 || i > 7 || j < 0 || j > 7) {
+              continue; /* Escaped counting unexisting squares */
+            }
+            if (
+              !this.field[i][j].isChecker &&
+              this.field[i][j].isPlayble &&
+              i == y_axis + 1  /* And trick is here */
+            ) {
+              /*  && i == y_axis - 1  */
+              this.field[i][j].isHinted = 1;
+            }
+          }
+        }
+      }
 
-      } 
-
-    }
+    },
   },
   mounted() {
     this.createId();

@@ -5,15 +5,13 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
 import { collection, addDoc } from "firebase/firestore";
-import db from './firebase.js';
-
-
+import db from "./firebase.js";
 
 export default {
   data() {
     return {
       people: [],
-    }
+    };
   },
   methods: {
     async addData() {
@@ -21,25 +19,24 @@ export default {
         const docRef = await addDoc(collection(db, "users"), {
           first: "Ada",
           last: "Lovelace",
-          born: 1815
+          born: 1815,
         });
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
-    }
+    },
   },
   mounted() {
     // this.addData();
-    this.$router.push('welcome');
-  }
-}
-
+    this.$router.push("welcome");
+  },
+};
 </script>
 
 <style>
 html {
-  background-color: #0077B6;
+  background-color: #0077b6;
 }
 
 #app {

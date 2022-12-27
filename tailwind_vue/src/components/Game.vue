@@ -12,17 +12,29 @@
           v-for="x in y"
           class=" h-full w-[12.5%] flex justify-center items-center"
           >
-          <div @click="coordination(y, x)" class=" w-[80%] h-[80%] bg-white rounded-full"
+          <div 
+            id="white_checker"
+            @click="coordination(y, x)" 
+            class=" w-[80%] h-[80%] bg-white rounded-full"
             v-if="x.isWhite">
           </div>
-          <div @click="chosenCheckerHint(y, x)" class=" w-[80%] h-[80%] bg-black rounded-full"
+          <div 
+            @click="chosenCheckerHint(y, x)" 
+            id="black_checker"
+            class=" w-[80%] h-[80%] bg-black rounded-full"
             v-if="x.isBlack">
           </div>
-          <div @click="coordination(y, x)" class=" w-full h-full bg-white bg-opacity-50"
-            v-if="x == 100">
+          <div 
+            @click="coordination(y, x)" 
+            id="hint"
+            class=" w-full h-full bg-white bg-opacity-50"
+            v-if="x.isHinted">
           </div>
-          <div @click="cleanHints" class=" w-full h-full"
-            v-if="x == 0">
+          <div 
+            id="empty_square"
+            @click="cleanHints" 
+            class=" w-full h-full"
+            v-if="x.isWhite == 0 && x.isBlack == 0 && x.isHinted == 0">
           </div>
         </span>
       </div>
@@ -36,7 +48,7 @@
     data() {
       return {
         isChosen: 1,
-        field: Array(8).fill().map(() => Array(8).fill().map((item, index) => ({id: index, isChosen: 0, isWhite: 0, isBlack: 0,}))),
+        field: Array(8).fill().map(() => Array(8).fill().map((item, index) => ({id: index, isChosen: 0, isChecker: 0, isWhite: 0, isBlack: 0, isHinted: 0}))),
       }
     },
     methods: {
@@ -51,28 +63,27 @@
         console.log(this.field);
       },
       initRender() {
-        let checker_counter = 1;
         for (let y in this.field) {
           for (let x in this.field[y]) {
-            if (y % 2 == 0 && y <= 2) {   /* Drawing white checkers. 1-12 - white checker */
+            if (y % 2 == 0 && y <= 2) {   /* Drawing white checkers. */
               if (x % 2 == 1) {
                 this.field[y][x].isWhite = 1;
-                checker_counter++;
+                this.field[y][x].isChecker = 1;
               }
             } else if (y % 2 == 1 && y <= 2) {
                 if (x % 2 == 0) {
                   this.field[y][x].isWhite = 1;
-                  checker_counter++;
+                  this.field[y][x].isChecker = 1;
                 }
-            } else if (y % 2 == 1 && y >= 5) {     /* Drawing black checkers. 13-24 - black checker */
+            } else if (y % 2 == 1 && y >= 5) {     /* Drawing black checkers. */
               if (x % 2 == 0) {
                 this.field[y][x].isBlack = 1;
-                checker_counter++;
+                this.field[y][x].isChecker = 1;
               }
             } else if (y % 2 == 0 && y >= 5) {
                 if (x % 2 == 1) {
                   this.field[y][x].isBlack = 1;
-                  checker_counter++;
+                  this.field[y][x].isChecker = 1;
                 }
             }
           }
@@ -88,25 +99,26 @@
         const y_axis = this.field.indexOf(y);
         const x_axis = y.indexOf(x);
         let emptySquaresAround = 0;
-
+        console.log(x_axis);
         // Analyzing chosen checker's surroundings
         for (let i = y_axis - 1; i < y_axis + 2; i++) {
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
             if (i == y_axis && j == x_axis) continue;
             if (i > 7) break; /* Escaped counting unexisting squares at bottom */
-            if (this.field[i][j] == 0 && i == y_axis - 1 && j % 2 == 1) {
+            if (this.field[i][j].isChecker == 0 && i == y_axis - 1 && j % 2 == 1) {
               emptySquaresAround++;
-              this.field[i][j] = 100;
+              this.field[i][j].isHinted = 1;
             } 
           }
         }
         console.log('empty Squares around:', emptySquaresAround);
       },
       cleanHints() {
+        console.log('workds!');
         for (let row in this.field) {
           for (let col in this.field[row]) {
-            if (this.field[row][col] == 100) {
-              this.field[row][col] = 0;
+            if (this.field[row][col].isHinted == 1) {
+              this.field[row][col].isHinted = 0;
             }
           }
         }

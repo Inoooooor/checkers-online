@@ -25,7 +25,7 @@
             v-if="x.isBlack">
           </div>
           <div 
-            @click="coordination(y, x)" 
+            @click="moveChecker(y, x)" 
             id="hint"
             class=" w-full h-full bg-white bg-opacity-50"
             v-if="x.isHinted">
@@ -147,7 +147,26 @@
             }
           } 
         }       
-      }
+      },
+      moveChecker(y, x) {
+        const y_axis = this.field.indexOf(y);
+        const x_axis = y.indexOf(x);
+        for (let i = y_axis - 1; i < y_axis + 2; i++) {
+          for (let j = x_axis - 1; j < x_axis + 2; j++) {
+            // if (i == y_axis && j == x_axis) continue;
+            if (i < 0 || i > 7 || j < 0 || j > 7) continue; /* Escaped counting unexisting squares */
+            if (this.field[i][j].isChosen) { 
+              let objBuffer;
+              objBuffer = this.field[y_axis][x_axis];
+              this.field[y_axis][x_axis] = this.field[i][j];
+              this.field[i][j] = objBuffer;
+              this.cleanHints();
+
+              return;
+            } 
+          }
+        }        
+      },
     },
     mounted() {
       this.createId();

@@ -62,6 +62,7 @@ export default {
               isBlack: 0,
               isHinted: 0,
               isPlayble: 0,
+              isEnemyNear: 0,
             }))
         ),
     };
@@ -139,12 +140,16 @@ export default {
       // Analyzing chosen checker's surroundings
       // if checker is black we analyze only top line of chozen analyze block if checker is white we do vice versa
       if (x.isBlack) { 
-        for (let i = y_axis - 1; i < y_axis; i++) {
+        for (let i = y_axis - 1; i < y_axis + 2; i++) {   /* Trick is at this line in i declaration */
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
             if (i == y_axis && j == x_axis) continue;
-            if (i < 0 || i > 7 || j < 0 || j > 7)
+            if (i < 0 || i > 7 || j < 0 || j > 7) {
               continue; /* Escaped counting unexisting squares */
-            if (!this.field[i][j].isChecker && this.field[i][j].isPlayble) {
+            }
+            if (this.field[i][j].isWhite) {
+              this.field[y_axis][x_axis].isEnemyNear = 1;
+            }
+            if (!this.field[i][j].isChecker && this.field[i][j].isPlayble && i == y_axis - 1) {
               /*  && i == y_axis - 1  */
               emptySquaresAround++;
               this.field[i][j].isHinted = 1;
@@ -152,12 +157,13 @@ export default {
           }
         } 
       } else {
-          for (let i = y_axis + 1; i < y_axis + 2; i++) {
+          for (let i = y_axis - 1; i < y_axis + 2; i++) { /* Trick is at this line in i declaration */
             for (let j = x_axis - 1; j < x_axis + 2; j++) {
               if (i == y_axis && j == x_axis) continue;
-              if (i < 0 || i > 7 || j < 0 || j > 7)
+              if (i < 0 || i > 7 || j < 0 || j > 7) {
                 continue; /* Escaped counting unexisting squares */
-              if (!this.field[i][j].isChecker && this.field[i][j].isPlayble) {
+              }
+              if (!this.field[i][j].isChecker && this.field[i][j].isPlayble && i == y_axis + 1) {
                 /*  && i == y_axis - 1  */
                 emptySquaresAround++;
                 this.field[i][j].isHinted = 1;

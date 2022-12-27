@@ -13,10 +13,10 @@
           class=" h-full w-[12.5%] flex justify-center items-center"
           >
           <div @click="coordination(y, x)" class=" w-[80%] h-[80%] bg-white rounded-full"
-            v-if="x > 0 && x < 13">
+            v-if="x.isWhite">
           </div>
           <div @click="chosenCheckerHint(y, x)" class=" w-[80%] h-[80%] bg-black rounded-full"
-            v-if="x > 12 && x < 25">
+            v-if="x.isBlack">
           </div>
           <div @click="coordination(y, x)" class=" w-full h-full bg-white bg-opacity-50"
             v-if="x == 100">
@@ -36,32 +36,42 @@
     data() {
       return {
         isChosen: 1,
-        field: Array(8).fill().map(() => Array(8).fill(0)),
+        field: Array(8).fill().map(() => Array(8).fill().map((item, index) => ({id: index, isChosen: 0, isWhite: 0, isBlack: 0,}))),
       }
     },
     methods: {
+      createId() {
+        let idCount = 0;
+        for (let y in this.field) {
+          for (let x in this.field[y]) {
+            this.field[y][x].id = idCount++;
+            // idCount++;
+          }
+        }
+        console.log(this.field);
+      },
       initRender() {
         let checker_counter = 1;
         for (let y in this.field) {
           for (let x in this.field[y]) {
             if (y % 2 == 0 && y <= 2) {   /* Drawing white checkers. 1-12 - white checker */
               if (x % 2 == 1) {
-                this.field[y][x] = checker_counter;
+                this.field[y][x].isWhite = 1;
                 checker_counter++;
               }
             } else if (y % 2 == 1 && y <= 2) {
                 if (x % 2 == 0) {
-                  this.field[y][x] = checker_counter;
+                  this.field[y][x].isWhite = 1;
                   checker_counter++;
                 }
             } else if (y % 2 == 1 && y >= 5) {     /* Drawing black checkers. 13-24 - black checker */
               if (x % 2 == 0) {
-                this.field[y][x] = checker_counter;
+                this.field[y][x].isBlack = 1;
                 checker_counter++;
               }
             } else if (y % 2 == 0 && y >= 5) {
                 if (x % 2 == 1) {
-                  this.field[y][x] = checker_counter;
+                  this.field[y][x].isBlack = 1;
                   checker_counter++;
                 }
             }
@@ -103,6 +113,7 @@
       }
     },
     mounted() {
+      this.createId();
       this.initRender();
       // console.log(this.field);
     }

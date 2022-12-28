@@ -45,6 +45,9 @@
 </template>
 
 <script>
+import { collection, addDoc } from "firebase/firestore";
+import db from "../firebase.js";
+
 export default {
   data() {
     return {
@@ -151,9 +154,9 @@ export default {
     cleanChoice() {
       for (let row in this.field) {
         for (let col in this.field[row]) {
-          if (this.field[row][col].isChosen == 1) {
+          // if (this.field[row][col].isChosen == 1) {
             this.field[row][col].isChosen = 0;
-          }
+          // }
         }
       }
     },
@@ -174,7 +177,7 @@ export default {
             objBuffer = this.field[y_axis][x_axis];
             this.field[y_axis][x_axis] = this.field[i][j];
             this.field[i][j] = objBuffer;
-            // this.cleanHints();
+            this.cleanChoice();
             moveFlag = 1;
           } else if (
             this.field[i][j].isWhite &&
@@ -182,7 +185,6 @@ export default {
             j + 1 < 8 &&
             this.field[i + 1][j + 1].isChosen
           ) {
-            // let objBuffer;
             objBuffer = this.field[y_axis][x_axis];
             this.field[y_axis][x_axis] = this.field[i + 1][j + 1];
             this.field[i + 1][j + 1] = objBuffer;
@@ -275,12 +277,12 @@ export default {
             this.cleanHints();
             moveFlag = 1;
           } 
-          
           else {
             continue;
           }
           if (moveFlag) {
             this.cleanHints();
+            this.cleanChoice();
             return;
           }
         }

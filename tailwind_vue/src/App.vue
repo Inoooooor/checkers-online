@@ -4,7 +4,7 @@
 
 <script>
 import { RouterLink, RouterView } from "vue-router";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc } from "firebase/firestore";
 import db from "./firebase.js";
 
 export default {
@@ -26,9 +26,20 @@ export default {
         console.error("Error adding document: ", e);
       }
     },
+    async changeField() {
+      try {
+        const docRef = await setDoc(doc(db, "users", "sfb3UeLiG5NQOlaXhscT"), {
+          bruh: 'loh'
+        });
+      } catch(e) {
+        console.log(e);
+      }
+
+    },
   },
   mounted() {
     // this.addData();
+    this.changeField();
     this.$router.push("welcome");
   },
 };

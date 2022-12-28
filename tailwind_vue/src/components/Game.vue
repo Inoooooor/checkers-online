@@ -178,8 +178,8 @@ export default {
             moveFlag = 1;
           } else if (
             this.field[i][j].isWhite &&
-            i + 1 < 7 &&
-            j + 1 < 7 &&
+            i + 1 < 8 &&
+            j + 1 < 8 &&
             this.field[i + 1][j + 1].isChosen
           ) {
             // let objBuffer;
@@ -191,8 +191,8 @@ export default {
             moveFlag = 1;
           } else if (
             this.field[i][j].isWhite &&
-            i + 1 < 7 &&
-            j - 1 > 0 &&
+            i + 1 < 8 &&
+            j - 1 > -1 &&
             this.field[i + 1][j - 1].isChosen
           ) {
             objBuffer = this.field[y_axis][x_axis];
@@ -203,8 +203,8 @@ export default {
             moveFlag = 1;
           } else if (
             this.field[i][j].isWhite &&
-            i - 1 > 0 &&
-            j + 1 < 7 &&
+            i - 1 > -1 &&
+            j + 1 < 8 &&
             this.field[i - 1][j + 1].isChosen
           ) {
             objBuffer = this.field[y_axis][x_axis];
@@ -215,8 +215,8 @@ export default {
             moveFlag = 1;
           } else if (
             this.field[i][j].isWhite &&
-            i - 1 > 0 &&
-            j - 1 > 0 &&
+            i - 1 > -1 &&
+            j - 1 > -1 &&
             this.field[i - 1][j - 1].isChosen
           ) {
             objBuffer = this.field[y_axis][x_axis];

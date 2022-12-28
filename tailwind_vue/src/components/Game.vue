@@ -161,20 +161,21 @@ export default {
       const y_axis = this.field.indexOf(y);
       const x_axis = y.indexOf(x);
       let objBuffer;
+      let moveFlag = 0;
       for (let i = y_axis - 1; i < y_axis + 2; i++) {
         for (let j = x_axis - 1; j < x_axis + 2; j++) {
           //  /* Escaped counting unexisting squares */
           if (i < 0 || i > 7 || j < 0 || j > 7) {
             continue;
-          }
+          } 
           if (this.field[i][j].isChosen) {
-            // switching checker and square chosen to move by buffer
+            // switching checker and square chosen to move to by buffer
             // let objBuffer;
             objBuffer = this.field[y_axis][x_axis];
             this.field[y_axis][x_axis] = this.field[i][j];
             this.field[i][j] = objBuffer;
-            this.cleanHints();
-            return;
+            // this.cleanHints();
+            moveFlag = 1;
           } else if (this.field[i][j].isWhite && this.field[i + 1][j + 1].isChosen) {
             // let objBuffer;
             objBuffer = this.field[y_axis][x_axis];
@@ -182,26 +183,36 @@ export default {
             this.field[i + 1][j + 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
+            moveFlag = 1;            
           } else if (this.field[i][j].isWhite && this.field[i + 1][j - 1].isChosen) {
             objBuffer = this.field[y_axis][x_axis];
             this.field[y_axis][x_axis] = this.field[i + 1][j - 1];
             this.field[i + 1][j - 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
+            moveFlag = 1;            
           } else if (this.field[i][j].isWhite && this.field[i - 1][j + 1].isChosen) {
             objBuffer = this.field[y_axis][x_axis];
             this.field[y_axis][x_axis] = this.field[i - 1][j + 1];
             this.field[i - 1][j + 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
+            moveFlag = 1;            
           } else if (this.field[i][j].isWhite && this.field[i - 1][j - 1].isChosen) {
             objBuffer = this.field[y_axis][x_axis];
             this.field[y_axis][x_axis] = this.field[i - 1][j - 1];
             this.field[i - 1][j - 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
-
+            moveFlag = 1;            
+          } else {
+            continue;
           }
+          if (moveFlag) {
+            this.cleanHints();
+            return;
+          } 
+
         }
       }
     },

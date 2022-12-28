@@ -271,6 +271,7 @@ export default {
       }
     },
     renderHints(y, x) {
+      this.cleanHints();
       const y_axis = this.field.indexOf(y);
       const x_axis = y.indexOf(x);
       // Analyzing chosen checker's surroundings
@@ -341,7 +342,7 @@ export default {
               this.field[i][j].isHinted = 1;
             }
             // four ifs below render hints for killing enemy for white checkers
-            if (i + 1 <= 7 && i - 1 >= 0 && j + 1 <= 7 && j - 1 >= 0) {
+            if (i + 1 <= 7 && i - 1 >= 0 && j + 1 <= 7 && j - 1 >= 0) {  /* by this we escape checking unexisting checkers or chosen checkers */
               if (
                 this.field[i][j].isBlack &&
                 this.field[i + 1][j + 1].isChosen &&

@@ -293,33 +293,35 @@ export default {
             // four ifs below render hints for killing enemy for black checkers
             // You should read the conditions like this. If analyzed square has one checker and there's chosen opposite checker near and...
             // ... there's blank square right after analyzed square we do hint
-            if (
-              this.field[i][j].isWhite &&
-              this.field[i + 1][j + 1].isChosen &&
-              !this.field[i - 1][j - 1].isChecker
-            ) {
-              this.field[i - 1][j - 1].isHinted = 1;
-            }
-            if (
-              this.field[i][j].isWhite &&
-              this.field[i + 1][j - 1].isChosen &&
-              !this.field[i - 1][j + 1].isChecker
-            ) {
-              this.field[i - 1][j + 1].isHinted = 1;
-            }
-            if (
-              this.field[i][j].isWhite &&
-              this.field[i - 1][j - 1].isChosen &&
-              !this.field[i + 1][j + 1].isChecker
-            ) {
-              this.field[i + 1][j + 1].isHinted = 1;
-            }
-            if (
-              this.field[i][j].isWhite &&
-              this.field[i - 1][j + 1].isChosen &&
-              !this.field[i + 1][j - 1].isChecker
-            ) {
-              this.field[i + 1][j - 1].isHinted = 1;
+            if (i + 1 <= 7 && i - 1 >= 0 && j + 1 <= 7 && j - 1 >= 0) {  /* by this we escape checking unexisting checkers or chosen checkers */
+              if (
+                this.field[i][j].isWhite &&
+                this.field[i + 1][j + 1].isChosen &&
+                !this.field[i - 1][j - 1].isChecker
+              ) {
+                this.field[i - 1][j - 1].isHinted = 1;
+              }
+              if (
+                this.field[i][j].isWhite &&
+                this.field[i + 1][j - 1].isChosen &&
+                !this.field[i - 1][j + 1].isChecker
+              ) {
+                this.field[i - 1][j + 1].isHinted = 1;
+              }
+              if (
+                this.field[i][j].isWhite &&
+                this.field[i - 1][j - 1].isChosen &&
+                !this.field[i + 1][j + 1].isChecker
+              ) {
+                this.field[i + 1][j + 1].isHinted = 1;
+              }
+              if (
+                this.field[i][j].isWhite &&
+                this.field[i - 1][j + 1].isChosen &&
+                !this.field[i + 1][j - 1].isChecker
+              ) {
+                this.field[i + 1][j - 1].isHinted = 1;
+              }
             }
           }
         }
@@ -336,37 +338,38 @@ export default {
               this.field[i][j].isPlayble &&
               i == y_axis + 1 /* And trick is here */
             ) {
-              /*  && i == y_axis - 1  */
               this.field[i][j].isHinted = 1;
             }
             // four ifs below render hints for killing enemy for white checkers
-            if (
-              this.field[i][j].isBlack &&
-              this.field[i + 1][j + 1].isChosen &&
-              !this.field[i - 1][j - 1].isChecker
-            ) {
-              this.field[i - 1][j - 1].isHinted = 1;
-            }
-            if (
-              this.field[i][j].isBlack &&
-              this.field[i + 1][j - 1].isChosen &&
-              !this.field[i - 1][j + 1].isChecker
-            ) {
-              this.field[i - 1][j + 1].isHinted = 1;
-            }
-            if (
-              this.field[i][j].isBlack &&
-              this.field[i - 1][j - 1].isChosen &&
-              !this.field[i + 1][j + 1].isChecker
-            ) {
-              this.field[i + 1][j + 1].isHinted = 1;
-            }
-            if (
-              this.field[i][j].isBlack &&
-              this.field[i - 1][j + 1].isChosen &&
-              !this.field[i + 1][j - 1].isChecker
-            ) {
-              this.field[i + 1][j - 1].isHinted = 1;
+            if (i + 1 <= 7 && i - 1 >= 0 && j + 1 <= 7 && j - 1 >= 0) {
+              if (
+                this.field[i][j].isBlack &&
+                this.field[i + 1][j + 1].isChosen &&
+                !this.field[i - 1][j - 1].isChecker
+              ) {
+                this.field[i - 1][j - 1].isHinted = 1;
+              }
+              if (
+                this.field[i][j].isBlack &&
+                this.field[i + 1][j - 1].isChosen &&
+                !this.field[i - 1][j + 1].isChecker
+              ) {
+                this.field[i - 1][j + 1].isHinted = 1;
+              }
+              if (
+                this.field[i][j].isBlack &&
+                this.field[i - 1][j - 1].isChosen &&
+                !this.field[i + 1][j + 1].isChecker
+              ) {
+                this.field[i + 1][j + 1].isHinted = 1;
+              }
+              if (
+                this.field[i][j].isBlack &&
+                this.field[i - 1][j + 1].isChosen &&
+                !this.field[i + 1][j - 1].isChecker
+              ) {
+                this.field[i + 1][j - 1].isHinted = 1;
+              }
             }
           }
         }

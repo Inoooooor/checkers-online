@@ -160,21 +160,47 @@ export default {
     moveChecker(y, x) {
       const y_axis = this.field.indexOf(y);
       const x_axis = y.indexOf(x);
+      let objBuffer;
       for (let i = y_axis - 1; i < y_axis + 2; i++) {
         for (let j = x_axis - 1; j < x_axis + 2; j++) {
-          // if (i == y_axis && j == x_axis) continue;
           //  /* Escaped counting unexisting squares */
           if (i < 0 || i > 7 || j < 0 || j > 7) {
             continue;
           }
           if (this.field[i][j].isChosen) {
-            // switching checker and square chosen to move
-            let objBuffer;
+            // switching checker and square chosen to move by buffer
+            // let objBuffer;
             objBuffer = this.field[y_axis][x_axis];
             this.field[y_axis][x_axis] = this.field[i][j];
             this.field[i][j] = objBuffer;
             this.cleanHints();
             return;
+          } else if (this.field[i][j].isWhite && this.field[i + 1][j + 1].isChosen) {
+            // let objBuffer;
+            objBuffer = this.field[y_axis][x_axis];
+            this.field[y_axis][x_axis] = this.field[i + 1][j + 1];
+            this.field[i + 1][j + 1] = objBuffer;
+            this.field[i][j] = objBuffer;
+            this.cleanHints();
+          } else if (this.field[i][j].isWhite && this.field[i + 1][j - 1].isChosen) {
+            objBuffer = this.field[y_axis][x_axis];
+            this.field[y_axis][x_axis] = this.field[i + 1][j - 1];
+            this.field[i + 1][j - 1] = objBuffer;
+            this.field[i][j] = objBuffer;
+            this.cleanHints();
+          } else if (this.field[i][j].isWhite && this.field[i - 1][j + 1].isChosen) {
+            objBuffer = this.field[y_axis][x_axis];
+            this.field[y_axis][x_axis] = this.field[i - 1][j + 1];
+            this.field[i - 1][j + 1] = objBuffer;
+            this.field[i][j] = objBuffer;
+            this.cleanHints();
+          } else if (this.field[i][j].isWhite && this.field[i - 1][j - 1].isChosen) {
+            objBuffer = this.field[y_axis][x_axis];
+            this.field[y_axis][x_axis] = this.field[i - 1][j - 1];
+            this.field[i - 1][j - 1] = objBuffer;
+            this.field[i][j] = objBuffer;
+            this.cleanHints();
+
           }
         }
       }
@@ -234,6 +260,21 @@ export default {
             ) {
               this.field[i][j].isHinted = 1;
             }
+            // four ifs below render hints for killing enemy for black checkers
+            // You should read the conditions like this. If analyzed square has one checker and there's chosen opposite checker near and...
+            // ... there's blank square right after analyzed square we do hint
+            if (this.field[i][j].isWhite && this.field[i + 1][j + 1].isChosen && !this.field[i - 1][j - 1].isChecker) {
+              this.field[i - 1][j - 1].isHinted = 1;
+            }
+            if (this.field[i][j].isWhite && this.field[i + 1][j - 1].isChosen && !this.field[i - 1][j + 1].isChecker) {
+              this.field[i - 1][j + 1].isHinted = 1;
+            }
+            if (this.field[i][j].isWhite && this.field[i - 1][j - 1].isChosen && !this.field[i + 1][j + 1].isChecker) {
+              this.field[i + 1][j + 1].isHinted = 1;
+            }
+            if (this.field[i][j].isWhite && this.field[i - 1][j + 1].isChosen && !this.field[i + 1][j - 1].isChecker) {
+              this.field[i + 1][j - 1].isHinted = 1;
+            }
           }
         }
       } else {
@@ -248,12 +289,25 @@ export default {
               !this.field[i][j].isChecker &&
               this.field[i][j].isPlayble &&
               i == y_axis + 1  /* And trick is here */
-            ) {
-              /*  && i == y_axis - 1  */
-              this.field[i][j].isHinted = 1;
+              ) {
+                /*  && i == y_axis - 1  */
+                this.field[i][j].isHinted = 1;
+              }
+              // four ifs below render hints for killing enemy for white checkers
+              if (this.field[i][j].isBlack && this.field[i + 1][j + 1].isChosen && !this.field[i - 1][j - 1].isChecker) {
+                this.field[i - 1][j - 1].isHinted = 1;
+              }
+              if (this.field[i][j].isBlack && this.field[i + 1][j - 1].isChosen && !this.field[i - 1][j + 1].isChecker) {
+                this.field[i - 1][j + 1].isHinted = 1;
+              }
+              if (this.field[i][j].isBlack && this.field[i - 1][j - 1].isChosen && !this.field[i + 1][j + 1].isChecker) {
+                this.field[i + 1][j + 1].isHinted = 1;
+              }
+              if (this.field[i][j].isBlack && this.field[i - 1][j + 1].isChosen && !this.field[i + 1][j - 1].isChecker) {
+                this.field[i + 1][j - 1].isHinted = 1;
+              }
             }
           }
-        }
       }
 
     },

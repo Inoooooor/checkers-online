@@ -142,9 +142,9 @@ export default {
       // console.log('workds!');
       for (let row in this.field) {
         for (let col in this.field[row]) {
-          if (this.field[row][col].isHinted == 1) {
+          // if (this.field[row][col].isHinted == 1) {
             this.field[row][col].isHinted = 0;
-          }
+          // }
         }
       }
     },
@@ -225,7 +225,58 @@ export default {
             this.field[i][j] = objBuffer;
             this.cleanHints();
             moveFlag = 1;
-          } else {
+          } else if (
+            this.field[i][j].isBlack &&
+            i + 1 < 8 &&
+            j + 1 < 8 &&
+            this.field[i + 1][j + 1].isChosen
+          ) {
+            // let objBuffer;
+            objBuffer = this.field[y_axis][x_axis];
+            this.field[y_axis][x_axis] = this.field[i + 1][j + 1];
+            this.field[i + 1][j + 1] = objBuffer;
+            this.field[i][j] = objBuffer;
+            this.cleanHints();
+            moveFlag = 1;
+          } else if (
+            this.field[i][j].isBlack &&
+            i + 1 < 8 &&
+            j - 1 > -1 &&
+            this.field[i + 1][j - 1].isChosen
+          ) {
+            objBuffer = this.field[y_axis][x_axis];
+            this.field[y_axis][x_axis] = this.field[i + 1][j - 1];
+            this.field[i + 1][j - 1] = objBuffer;
+            this.field[i][j] = objBuffer;
+            this.cleanHints();
+            moveFlag = 1;
+          } else if (
+            this.field[i][j].isBlack &&
+            i - 1 > -1 &&
+            j + 1 < 8 &&
+            this.field[i - 1][j + 1].isChosen
+          ) {
+            objBuffer = this.field[y_axis][x_axis];
+            this.field[y_axis][x_axis] = this.field[i - 1][j + 1];
+            this.field[i - 1][j + 1] = objBuffer;
+            this.field[i][j] = objBuffer;
+            this.cleanHints();
+            moveFlag = 1;
+          } else if (
+            this.field[i][j].isBlack &&
+            i - 1 > -1 &&
+            j - 1 > -1 &&
+            this.field[i - 1][j - 1].isChosen
+          ) {
+            objBuffer = this.field[y_axis][x_axis];
+            this.field[y_axis][x_axis] = this.field[i - 1][j - 1];
+            this.field[i - 1][j - 1] = objBuffer;
+            this.field[i][j] = objBuffer;
+            this.cleanHints();
+            moveFlag = 1;
+          } 
+          
+          else {
             continue;
           }
           if (moveFlag) {

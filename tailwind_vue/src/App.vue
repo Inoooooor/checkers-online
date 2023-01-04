@@ -40,7 +40,7 @@ export default {
   mounted() {
     // this.addData();
     this.changeField();
-    this.$router.push("welcome");
+    // this.$router.push("welcome");
   },
 };
 </script>

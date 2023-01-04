@@ -164,7 +164,7 @@ export default {
       const y_axis = this.field.indexOf(y);
       const x_axis = y.indexOf(x);
       let objBuffer;
-      let moveFlag = 0;
+      // let moveFlag = 0;
       for (let i = y_axis - 1; i < y_axis + 2; i++) {
         for (let j = x_axis - 1; j < x_axis + 2; j++) {
           //  /* Escaped counting unexisting squares */
@@ -177,8 +177,9 @@ export default {
             objBuffer = this.field[y_axis][x_axis];
             this.field[y_axis][x_axis] = this.field[i][j];
             this.field[i][j] = objBuffer;
+            this.cleanHints();
             this.cleanChoice();
-            moveFlag = 1;
+            return;
           } else if (
             this.field[i][j].isWhite &&
             i + 1 < 8 &&
@@ -190,7 +191,8 @@ export default {
             this.field[i + 1][j + 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
-            moveFlag = 1;
+            this.cleanChoice();
+            return;
           } else if (
             this.field[i][j].isWhite &&
             i + 1 < 8 &&
@@ -202,7 +204,8 @@ export default {
             this.field[i + 1][j - 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
-            moveFlag = 1;
+            this.cleanChoice();
+            return;
           } else if (
             this.field[i][j].isWhite &&
             i - 1 > -1 &&
@@ -214,7 +217,8 @@ export default {
             this.field[i - 1][j + 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
-            moveFlag = 1;
+            this.cleanChoice();
+            return;
           } else if (
             this.field[i][j].isWhite &&
             i - 1 > -1 &&
@@ -226,7 +230,8 @@ export default {
             this.field[i - 1][j - 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
-            moveFlag = 1;
+            this.cleanChoice();
+            return;
           } else if (
             this.field[i][j].isBlack &&
             i + 1 < 8 &&
@@ -239,7 +244,8 @@ export default {
             this.field[i + 1][j + 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
-            moveFlag = 1;
+            this.cleanChoice();
+            return;
           } else if (
             this.field[i][j].isBlack &&
             i + 1 < 8 &&
@@ -251,7 +257,8 @@ export default {
             this.field[i + 1][j - 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
-            moveFlag = 1;
+            this.cleanChoice();
+            return;
           } else if (
             this.field[i][j].isBlack &&
             i - 1 > -1 &&
@@ -263,7 +270,8 @@ export default {
             this.field[i - 1][j + 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
-            moveFlag = 1;
+            this.cleanChoice();
+            return;
           } else if (
             this.field[i][j].isBlack &&
             i - 1 > -1 &&
@@ -275,16 +283,17 @@ export default {
             this.field[i - 1][j - 1] = objBuffer;
             this.field[i][j] = objBuffer;
             this.cleanHints();
-            moveFlag = 1;
+            this.cleanChoice();
+            return;
           } 
           else {
             continue;
           }
-          if (moveFlag) {
-            this.cleanHints();
-            this.cleanChoice();
-            return;
-          }
+          // if (moveFlag) {
+          //   this.cleanHints();
+          //   this.cleanChoice();
+          //   return;
+          // }
         }
       }
     },

@@ -71,6 +71,13 @@ export default {
     };
   },
   methods: {
+    nullifySquareProps(obj) {
+      for (let key in obj) {
+        if (key == 'isHinted') {
+          obj[key] = 0;
+        }
+      }
+    },
     createId() {
       let idCount = 0;
       for (let y in this.field) {
@@ -138,7 +145,7 @@ export default {
       this.cleanChoice();
       this.choosingChecker(y, x);
       this.cleanHints();
-      this.enemyDetection(y, x);
+      // this.enemyDetection(y, x);
       this.renderHints(y, x);
     },
     cleanHints() {
@@ -177,6 +184,7 @@ export default {
             objBuffer = this.field[y_axis][x_axis];
             this.field[y_axis][x_axis] = this.field[i][j];
             this.field[i][j] = objBuffer;
+            // this.nullifySquareProps(this.field[i][j]);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -190,6 +198,7 @@ export default {
             this.field[y_axis][x_axis] = this.field[i + 1][j + 1];
             this.field[i + 1][j + 1] = objBuffer;
             this.field[i][j] = objBuffer;
+            // this.nullifySquareProps(this.field[i][j]);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -203,6 +212,7 @@ export default {
             this.field[y_axis][x_axis] = this.field[i + 1][j - 1];
             this.field[i + 1][j - 1] = objBuffer;
             this.field[i][j] = objBuffer;
+            // this.nullifySquareProps(this.field[i][j]);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -216,6 +226,7 @@ export default {
             this.field[y_axis][x_axis] = this.field[i - 1][j + 1];
             this.field[i - 1][j + 1] = objBuffer;
             this.field[i][j] = objBuffer;
+            // this.nullifySquareProps(this.field[i][j]);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -229,6 +240,7 @@ export default {
             this.field[y_axis][x_axis] = this.field[i - 1][j - 1];
             this.field[i - 1][j - 1] = objBuffer;
             this.field[i][j] = objBuffer;
+            // this.nullifySquareProps(this.field[i][j]);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -243,6 +255,7 @@ export default {
             this.field[y_axis][x_axis] = this.field[i + 1][j + 1];
             this.field[i + 1][j + 1] = objBuffer;
             this.field[i][j] = objBuffer;
+            // this.nullifySquareProps(this.field[i][j]);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -256,6 +269,7 @@ export default {
             this.field[y_axis][x_axis] = this.field[i + 1][j - 1];
             this.field[i + 1][j - 1] = objBuffer;
             this.field[i][j] = objBuffer;
+            // this.nullifySquareProps(this.field[i][j]);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -269,6 +283,7 @@ export default {
             this.field[y_axis][x_axis] = this.field[i - 1][j + 1];
             this.field[i - 1][j + 1] = objBuffer;
             this.field[i][j] = objBuffer;
+            // this.nullifySquareProps(this.field[i][j]);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -282,6 +297,7 @@ export default {
             this.field[y_axis][x_axis] = this.field[i - 1][j - 1];
             this.field[i - 1][j - 1] = objBuffer;
             this.field[i][j] = objBuffer;
+            // this.nullifySquareProps(this.field[i][j]);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -352,6 +368,7 @@ export default {
               i == y_axis - 1 /* And trick is here */
             ) {
               this.field[i][j].isHinted = 1;
+              // debugger;
             }
             // four ifs below render hints for killing enemy for black checkers
             // You should read the conditions like this. If analyzed square has one checker and there's chosen opposite checker near and...
@@ -440,6 +457,7 @@ export default {
     },
   },
   mounted() {
+    console.log('hey!');
     this.createId();
     this.initRender();
     // console.log(this.field);

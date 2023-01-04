@@ -18,26 +18,29 @@
             id="white_checker"
             @click="chosenCheckerHint(y, x)"
             class="w-[80%] h-[80%] bg-white rounded-full"
-            v-if="x.isWhite"
+            v-if="x.isWhite && !x.isQueen"
           ></div>
           <div
             @click="chosenCheckerHint(y, x)"
             id="black_checker"
             class="w-[80%] h-[80%] bg-black rounded-full"
-            v-if="x.isBlack"
+            v-if="x.isBlack && !x.isQueen"
           ></div>
           <div
             @click="chosenCheckerHint(y, x)"
-            id="black_checker"
+            id="black_queen_checker"
             class=""
             v-if="x.isBlack && x.isQueen"
-          ><img src="../images/queen_figure_black.png" alt=""></div>
+          >
+            <img src="../images/queen_figure_black.png" alt="Black Queen"></div>
           <div
             @click="chosenCheckerHint(y, x)"
-            id="black_checker"
-            class="w-[80%] h-[80%] bg-black rounded-full"
+            id="white_queen_checker"
+            class=""
             v-if="x.isWhite && x.isQueen"
-          ></div>
+          >
+            <img src="../images/queen_figure_white.png" alt="White Queen">
+          </div>
           <div
             @click="moveChecker(y, x)"
             id="hint"
@@ -84,11 +87,11 @@ export default {
     };
   },
   methods: {
-    nullifySquareProps(obj) {
-      for (let key in obj) {
-        if (key == 'isHinted') {
-          obj[key] = 0;
-        }
+    makeQueen(y_axis, x_axis) {
+      // const y_axis = this.field.indexOf(y);
+      // const x_axis = y.indexOf(x);
+      if (y_axis === 0 || y_axis === 7) {
+        this.field[y_axis][x_axis].isQueen = 1;
       }
     },
     createId() {
@@ -158,7 +161,6 @@ export default {
       this.cleanChoice();
       this.choosingChecker(y, x);
       this.cleanHints();
-      // this.enemyDetection(y, x);
       this.renderHints(y, x);
     },
     cleanHints() {
@@ -199,6 +201,7 @@ export default {
             this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
+            this.makeQueen(y_axis, x_axis);
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -212,6 +215,7 @@ export default {
             this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
+            this.makeQueen(y_axis, x_axis);
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -225,6 +229,7 @@ export default {
             this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
+            this.makeQueen(y_axis, x_axis);
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -238,6 +243,7 @@ export default {
             this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
+            this.makeQueen(y_axis, x_axis);
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -251,6 +257,7 @@ export default {
             this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
+            this.makeQueen(y_axis, x_axis);
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -265,6 +272,7 @@ export default {
             this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
+            this.makeQueen(y_axis, x_axis);
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -278,6 +286,7 @@ export default {
             this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
+            this.makeQueen(y_axis, x_axis);
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -291,6 +300,7 @@ export default {
             this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
+            this.makeQueen(y_axis, x_axis);
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -304,6 +314,7 @@ export default {
             this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
+            this.makeQueen(y_axis, x_axis);
             return;
           } 
           else {
@@ -312,6 +323,7 @@ export default {
           // if (moveFlag) {
           //   this.cleanHints();
           //   this.cleanChoice();
+          // this.makeQueen(y_axis, x_axis);
           //   return;
           // }
         }

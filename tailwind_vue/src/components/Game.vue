@@ -368,32 +368,28 @@ export default {
               if (
                 this.field[i][j].isWhite &&
                 this.field[i + 1][j + 1].isChosen &&
-                !this.field[i - 1][j - 1].isChecker &&
-                ((i + 1) - (i - 1) === 2 && (j + 1) - (j - 1) === 2)
+                !this.field[i - 1][j - 1].isChecker
               ) {
                 this.field[i - 1][j - 1].isHinted = 1;
               }
               if (
                 this.field[i][j].isWhite &&
                 this.field[i + 1][j - 1].isChosen &&
-                !this.field[i - 1][j + 1].isChecker &&
-                ((i + 1) - (i - 1) === 2 && (j - 1) - (j + 1) === -2)
+                !this.field[i - 1][j + 1].isChecker
               ) {
                 this.field[i - 1][j + 1].isHinted = 1;
               }
               if (
                 this.field[i][j].isWhite &&
                 this.field[i - 1][j - 1].isChosen &&
-                !this.field[i + 1][j + 1].isChecker &&
-                ((i - 1) - (i + 1) === -2 && (j - 1) - (j + 1) === -2)
+                !this.field[i + 1][j + 1].isChecker
               ) {
                 this.field[i + 1][j + 1].isHinted = 1;
               }
               if (
                 this.field[i][j].isWhite &&
                 this.field[i - 1][j + 1].isChosen &&
-                !this.field[i + 1][j - 1].isChecker &&
-                ((i - 1) - (i + 1) === -2 && (j + 1) - (j - 1) === 2)
+                !this.field[i + 1][j - 1].isChecker
               ) {
                 this.field[i + 1][j - 1].isHinted = 1;
               }

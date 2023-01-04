@@ -29,9 +29,9 @@
           <div
             @click="chosenCheckerHint(y, x)"
             id="black_checker"
-            class="w-[80%] h-[80%] bg-black rounded-full"
+            class=""
             v-if="x.isBlack && x.isQueen"
-          ></div>
+          ><img src="../images/queen_figure_black.png" alt=""></div>
           <div
             @click="chosenCheckerHint(y, x)"
             id="black_checker"
@@ -486,5 +486,6 @@ export default {
 
 .chosen {
   background: blue;
+  /* background: url('../images/queen_figure_black.png'); */
 }
 </style>

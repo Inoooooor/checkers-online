@@ -181,10 +181,9 @@ export default {
           if (this.field[i][j].isChosen) {
             // switching checker and square chosen to move to by buffer
             // let objBuffer;
-            objBuffer = this.field[y_axis][x_axis];
-            this.field[y_axis][x_axis] = this.field[i][j];
-            this.field[i][j] = objBuffer;
-            // this.nullifySquareProps(this.field[i][j]);
+            objBuffer = Object.assign({}, this.field[y_axis][x_axis]);
+            this.field[y_axis][x_axis] = Object.assign({}, this.field[i][j]);
+            this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -194,11 +193,10 @@ export default {
             j + 1 < 8 &&
             this.field[i + 1][j + 1].isChosen
           ) {
-            objBuffer = this.field[y_axis][x_axis];
-            this.field[y_axis][x_axis] = this.field[i + 1][j + 1];
-            this.field[i + 1][j + 1] = objBuffer;
-            this.field[i][j] = objBuffer;
-            // this.nullifySquareProps(this.field[i][j]);
+            objBuffer = Object.assign({}, this.field[y_axis][x_axis]);
+            this.field[y_axis][x_axis] = Object.assign({}, this.field[i + 1][j + 1]);
+            this.field[i + 1][j + 1] = Object.assign({}, objBuffer);
+            this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -208,11 +206,10 @@ export default {
             j - 1 > -1 &&
             this.field[i + 1][j - 1].isChosen
           ) {
-            objBuffer = this.field[y_axis][x_axis];
-            this.field[y_axis][x_axis] = this.field[i + 1][j - 1];
-            this.field[i + 1][j - 1] = objBuffer;
-            this.field[i][j] = objBuffer;
-            // this.nullifySquareProps(this.field[i][j]);
+            objBuffer = Object.assign({}, this.field[y_axis][x_axis]);
+            this.field[y_axis][x_axis] = Object.assign({}, this.field[i + 1][j - 1]);
+            this.field[i + 1][j - 1] = Object.assign({}, objBuffer);
+            this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -222,11 +219,10 @@ export default {
             j + 1 < 8 &&
             this.field[i - 1][j + 1].isChosen
           ) {
-            objBuffer = this.field[y_axis][x_axis];
-            this.field[y_axis][x_axis] = this.field[i - 1][j + 1];
-            this.field[i - 1][j + 1] = objBuffer;
-            this.field[i][j] = objBuffer;
-            // this.nullifySquareProps(this.field[i][j]);
+            objBuffer = Object.assign({}, this.field[y_axis][x_axis]);
+            this.field[y_axis][x_axis] = Object.assign({}, this.field[i - 1][j + 1]);
+            this.field[i - 1][j + 1] = Object.assign({}, objBuffer);
+            this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -236,11 +232,10 @@ export default {
             j - 1 > -1 &&
             this.field[i - 1][j - 1].isChosen
           ) {
-            objBuffer = this.field[y_axis][x_axis];
-            this.field[y_axis][x_axis] = this.field[i - 1][j - 1];
-            this.field[i - 1][j - 1] = objBuffer;
-            this.field[i][j] = objBuffer;
-            // this.nullifySquareProps(this.field[i][j]);
+            objBuffer = Object.assign({}, this.field[y_axis][x_axis]);
+            this.field[y_axis][x_axis] = Object.assign({}, this.field[i - 1][j - 1]);
+            this.field[i - 1][j - 1] = Object.assign({}, objBuffer);
+            this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -251,11 +246,10 @@ export default {
             this.field[i + 1][j + 1].isChosen
           ) {
             // let objBuffer;
-            objBuffer = this.field[y_axis][x_axis];
-            this.field[y_axis][x_axis] = this.field[i + 1][j + 1];
-            this.field[i + 1][j + 1] = objBuffer;
-            this.field[i][j] = objBuffer;
-            // this.nullifySquareProps(this.field[i][j]);
+            objBuffer = Object.assign({}, this.field[y_axis][x_axis]);
+            this.field[y_axis][x_axis] = Object.assign({}, this.field[i + 1][j + 1]);
+            this.field[i + 1][j + 1] = Object.assign({}, objBuffer);
+            this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -265,11 +259,10 @@ export default {
             j - 1 > -1 &&
             this.field[i + 1][j - 1].isChosen
           ) {
-            objBuffer = this.field[y_axis][x_axis];
-            this.field[y_axis][x_axis] = this.field[i + 1][j - 1];
-            this.field[i + 1][j - 1] = objBuffer;
-            this.field[i][j] = objBuffer;
-            // this.nullifySquareProps(this.field[i][j]);
+            objBuffer = Object.assign({}, this.field[y_axis][x_axis]);
+            this.field[y_axis][x_axis] = Object.assign({}, this.field[i + 1][j - 1]);
+            this.field[i + 1][j - 1] = Object.assign({}, objBuffer);
+            this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -279,11 +272,10 @@ export default {
             j + 1 < 8 &&
             this.field[i - 1][j + 1].isChosen
           ) {
-            objBuffer = this.field[y_axis][x_axis];
-            this.field[y_axis][x_axis] = this.field[i - 1][j + 1];
-            this.field[i - 1][j + 1] = objBuffer;
-            this.field[i][j] = objBuffer;
-            // this.nullifySquareProps(this.field[i][j]);
+            objBuffer = Object.assign({}, this.field[y_axis][x_axis]);
+            this.field[y_axis][x_axis] = Object.assign({}, this.field[i - 1][j + 1]);
+            this.field[i - 1][j + 1] = Object.assign({}, objBuffer);
+            this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -293,11 +285,10 @@ export default {
             j - 1 > -1 &&
             this.field[i - 1][j - 1].isChosen
           ) {
-            objBuffer = this.field[y_axis][x_axis];
-            this.field[y_axis][x_axis] = this.field[i - 1][j - 1];
-            this.field[i - 1][j - 1] = objBuffer;
-            this.field[i][j] = objBuffer;
-            // this.nullifySquareProps(this.field[i][j]);
+            objBuffer = Object.assign({}, this.field[y_axis][x_axis]);
+            this.field[y_axis][x_axis] = Object.assign({}, this.field[i - 1][j - 1]);
+            this.field[i - 1][j - 1] = Object.assign({}, objBuffer);
+            this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
             return;
@@ -377,28 +368,32 @@ export default {
               if (
                 this.field[i][j].isWhite &&
                 this.field[i + 1][j + 1].isChosen &&
-                !this.field[i - 1][j - 1].isChecker
+                !this.field[i - 1][j - 1].isChecker &&
+                ((i + 1) - (i - 1) === 2 && (j + 1) - (j - 1) === 2)
               ) {
                 this.field[i - 1][j - 1].isHinted = 1;
               }
               if (
                 this.field[i][j].isWhite &&
                 this.field[i + 1][j - 1].isChosen &&
-                !this.field[i - 1][j + 1].isChecker
+                !this.field[i - 1][j + 1].isChecker &&
+                ((i + 1) - (i - 1) === 2 && (j - 1) - (j + 1) === -2)
               ) {
                 this.field[i - 1][j + 1].isHinted = 1;
               }
               if (
                 this.field[i][j].isWhite &&
                 this.field[i - 1][j - 1].isChosen &&
-                !this.field[i + 1][j + 1].isChecker
+                !this.field[i + 1][j + 1].isChecker &&
+                ((i - 1) - (i + 1) === -2 && (j - 1) - (j + 1) === -2)
               ) {
                 this.field[i + 1][j + 1].isHinted = 1;
               }
               if (
                 this.field[i][j].isWhite &&
                 this.field[i - 1][j + 1].isChosen &&
-                !this.field[i + 1][j - 1].isChecker
+                !this.field[i + 1][j - 1].isChecker &&
+                ((i - 1) - (i + 1) === -2 && (j + 1) - (j - 1) === 2)
               ) {
                 this.field[i + 1][j - 1].isHinted = 1;
               }

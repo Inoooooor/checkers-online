@@ -27,6 +27,18 @@
             v-if="x.isBlack"
           ></div>
           <div
+            @click="chosenCheckerHint(y, x)"
+            id="black_checker"
+            class="w-[80%] h-[80%] bg-black rounded-full"
+            v-if="x.isBlack && x.isQueen"
+          ></div>
+          <div
+            @click="chosenCheckerHint(y, x)"
+            id="black_checker"
+            class="w-[80%] h-[80%] bg-black rounded-full"
+            v-if="x.isWhite && x.isQueen"
+          ></div>
+          <div
             @click="moveChecker(y, x)"
             id="hint"
             class="w-full h-full bg-white bg-opacity-50"
@@ -52,10 +64,10 @@ export default {
   data() {
     return {
       isChosen: 1,
-      field: Array(8)
+      field: new Array(8)
         .fill()
         .map(() =>
-          Array(8)
+          new Array(8)
             .fill()
             .map((item, index) => ({
               id: index,
@@ -66,6 +78,7 @@ export default {
               isHinted: 0,
               isPlayble: 0,
               isEnemyNear: 0,
+              isQueen: 0,
             }))
         ),
     };

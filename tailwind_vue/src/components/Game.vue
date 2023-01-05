@@ -215,6 +215,11 @@ export default {
             );
             this.field[i + 1][j + 1] = Object.assign({}, objBuffer);
             this.field[i][j] = Object.assign({}, objBuffer);
+            // this.swapSquares(
+            //   this.field[y_axis][x_axis],
+            //   this.field[i + 1][j + 1],
+            //   this.field[i][j]
+            // );
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
@@ -232,6 +237,11 @@ export default {
             );
             this.field[i + 1][j - 1] = Object.assign({}, objBuffer);
             this.field[i][j] = Object.assign({}, objBuffer);
+            // this.swapSquares(
+            //   this.field[y_axis][x_axis],
+            //   this.field[i + 1][j - 1],
+            //   this.field[i][j]
+            // );
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
@@ -249,6 +259,12 @@ export default {
             );
             this.field[i - 1][j + 1] = Object.assign({}, objBuffer);
             this.field[i][j] = Object.assign({}, objBuffer);
+            // this.swapSquares(
+            //   this.field[y_axis][x_axis],
+            //   this.field[i - 1][j + 1],
+            //   this.field[i][j]
+            // );
+
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
@@ -266,6 +282,11 @@ export default {
             );
             this.field[i - 1][j - 1] = Object.assign({}, objBuffer);
             this.field[i][j] = Object.assign({}, objBuffer);
+            // this.swapSquares(
+            //   this.field[y_axis][x_axis],
+            //   this.field[i - 1][j - 1],
+            //   this.field[i][j]
+            // );
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
@@ -284,6 +305,11 @@ export default {
             );
             this.field[i + 1][j + 1] = Object.assign({}, objBuffer);
             this.field[i][j] = Object.assign({}, objBuffer);
+            // this.swapSquares(
+            //   this.field[y_axis][x_axis],
+            //   this.field[i + 1][j + 1],
+            //   this.field[i][j]
+            // );
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
@@ -301,6 +327,11 @@ export default {
             );
             this.field[i + 1][j - 1] = Object.assign({}, objBuffer);
             this.field[i][j] = Object.assign({}, objBuffer);
+            // this.swapSquares(
+            //   this.field[y_axis][x_axis],
+            //   this.field[i + 1][j - 1],
+            //   this.field[i][j]
+            // );
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
@@ -318,6 +349,11 @@ export default {
             );
             this.field[i - 1][j + 1] = Object.assign({}, objBuffer);
             this.field[i][j] = Object.assign({}, objBuffer);
+            // this.swapSquares(
+            //   this.field[y_axis][x_axis],
+            //   this.field[i - 1][j + 1],
+            //   this.field[i][j]
+            // );
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
@@ -335,6 +371,11 @@ export default {
             );
             this.field[i - 1][j - 1] = Object.assign({}, objBuffer);
             this.field[i][j] = Object.assign({}, objBuffer);
+            // this.swapSquares(
+            //   this.field[y_axis][x_axis],
+            //   this.field[i - 1][j - 1],
+            //   this.field[i][j]
+            // );
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
@@ -350,6 +391,13 @@ export default {
           // }
         }
       }
+    },
+    swapSquares(hintedSquare, chosenSquare, squareBetween) {
+      let objTemp = {};
+      objTemp = Object.assign({}, hintedSquare);
+      hintedSquare = Object.assign({}, chosenSquare);
+      chosenSquare = Object.assign({}, objTemp);
+      squareBetween = Object.assign({}, objTemp);
     },
     enemyDetection(y, x) {
       const y_axis = this.field.indexOf(y);

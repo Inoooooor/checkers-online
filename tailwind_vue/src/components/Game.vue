@@ -87,7 +87,9 @@ export default {
     makeQueen(y_axis, x_axis) {
       // const y_axis = this.field.indexOf(y);
       // const x_axis = y.indexOf(x);
-      if (y_axis === 0 || y_axis === 7) {
+      if (y_axis === 0 && this.field[y_axis][x_axis].isBlack === 1) {
+        this.field[y_axis][x_axis].isQueen = 1;
+      } else if (y_axis === 7 && this.field[y_axis][x_axis].isWhite === 1) {
         this.field[y_axis][x_axis].isQueen = 1;
       }
     },

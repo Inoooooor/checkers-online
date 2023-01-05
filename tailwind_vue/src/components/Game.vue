@@ -550,9 +550,14 @@ export default {
     renderQueenHints(y_axis, x_axis) {
       for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
-          if (i == y_axis && j == x_axis) continue;
+          if (i == y_axis || j == x_axis) continue;
           if (!this.field[i][j].isChecker && this.field[i][j].isPlayble) {
+            if (i - y_axis ==  j - x_axis) {
             this.field[i][j].isHinted = 1;
+            }
+            if (y_axis + x_axis == i + j) {
+              this.field[i][j].isHinted = 1;
+            }
           }
         }
       }

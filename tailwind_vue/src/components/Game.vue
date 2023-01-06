@@ -61,8 +61,12 @@
 </template>
 
 <script>
-import { collection, addDoc, setDoc, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc, getDoc, getDocs, onSnapshot } from "firebase/firestore";
 import db from "../firebase.js";
+
+const unsub = onSnapshot(doc(db, "game", "field"), (doc) => {
+    console.log("Current data: ", JSON.parse(doc.data().field));
+});
 
 export default {
   data() {
@@ -205,7 +209,8 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
-            this.updateField();
+            this.updateRemoteField();
+            // this.fetchRemoteField();
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -229,7 +234,8 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
-            this.updateField();
+            this.updateRemoteField();
+            // this.fetchRemoteField();
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -253,7 +259,8 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
-            this.updateField();
+            this.updateRemoteField();
+            // this.fetchRemoteField();
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -278,7 +285,8 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
-            this.updateField();
+            this.updateRemoteField();
+            // this.fetchRemoteField();
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -302,7 +310,8 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
-            this.updateField();
+            this.updateRemoteField();
+            // this.fetchRemoteField();
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -327,7 +336,8 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
-            this.updateField();
+            this.updateRemoteField();
+            // this.fetchRemoteField();
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -351,7 +361,8 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
-            this.updateField();
+            this.updateRemoteField();
+            // this.fetchRemoteField();
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -375,7 +386,8 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
-            this.updateField();
+            this.updateRemoteField();
+            // this.fetchRemoteField();
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -399,7 +411,8 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
-            this.updateField();
+            this.updateRemoteField();
+            // this.fetchRemoteField();
             return;
           } else {
             continue;
@@ -598,7 +611,7 @@ export default {
         }
       }
     },
-    async updateField() {
+    async updateRemoteField() {
       try {
         const docRef = await setDoc(doc(db, "game", "field"), {
           field: JSON.stringify(this.field),
@@ -608,11 +621,18 @@ export default {
         console.log(e);
       }
     },
+    async fetchRemoteField() {
+      this.field = this.getDb();
+    },
     async getDb() {
       try {
         const querySnapshot = await getDocs(collection(db, "game"));
         querySnapshot.forEach((doc) => {
-        console.log(JSON.parse(doc.data().field));
+        console.log(Array.isArray(JSON.parse(doc.data().field)));
+        console.log(Array.isArray(this.field))
+        this.field = JSON.parse(doc.data().field);
+        // this.field[5][2].isQueen = 1;
+        return JSON.parse(doc.data().field);
         });
       } catch (e) {
         console.log('FetchErr: ' + e);
@@ -624,10 +644,10 @@ export default {
     this.getDb();
     this.createId();
     this.initRender();
-    this.updateField(); 
+    this.updateRemoteField(); 
     // console.log(db);
     this.field[5][4].isQueen = 1;
-    console.log(Array.isArray(this.field));
+    // console.log(Array.isArray(this.field));
   },
   watch: {
     

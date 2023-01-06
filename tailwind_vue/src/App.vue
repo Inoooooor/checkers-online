@@ -4,8 +4,13 @@
 
 <script>
 import { RouterLink, RouterView } from "vue-router";
-import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc, onSnapshot } from "firebase/firestore";
 import db from "./firebase.js";
+
+// const unsub = onSnapshot(doc(db, "game", "field"), (doc) => {
+//     console.log("Current data: ", JSON.parse(doc.data().field));
+// });
+
 
 export default {
   data() {

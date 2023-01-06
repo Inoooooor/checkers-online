@@ -67,7 +67,8 @@ import db from "../firebase.js";
 export default {
   data() {
     return {
-      isChosen: 1,
+      // isChosen: 1,
+      isBlackTurn: true,
       field: new Array(8).fill().map(() =>
         new Array(8).fill().map((item, index) => ({
           id: index,
@@ -84,6 +85,9 @@ export default {
     };
   },
   methods: {
+    changeTurns() {
+      this.isBlackTurn = !this.isBlackTurn;
+    },
     makeQueen(y_axis, x_axis) {
       // const y_axis = this.field.indexOf(y);
       // const x_axis = y.indexOf(x);
@@ -194,13 +198,13 @@ export default {
           }
           if (this.field[i][j].isChosen) {
             // switching checker and square chosen to move to by buffer
-            // let objBuffer;
             objBuffer = Object.assign({}, this.field[y_axis][x_axis]);
             this.field[y_axis][x_axis] = Object.assign({}, this.field[i][j]);
             this.field[i][j] = Object.assign({}, objBuffer);
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
+            this.changeTurns(this.isBlackTurn);
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -223,6 +227,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
+            this.changeTurns(this.isBlackTurn);
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -245,6 +250,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
+            this.changeTurns(this.isBlackTurn);
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -268,6 +274,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
+            this.changeTurns(this.isBlackTurn);
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -290,6 +297,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
+            this.changeTurns(this.isBlackTurn);
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -313,6 +321,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
+            this.changeTurns(this.isBlackTurn);
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -335,6 +344,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
+            this.changeTurns(this.isBlackTurn);
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -357,6 +367,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
+            this.changeTurns(this.isBlackTurn);
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -379,6 +390,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
+            this.changeTurns(this.isBlackTurn);
             return;
           } else {
             continue;
@@ -387,6 +399,7 @@ export default {
           //   this.cleanHints();
           //   this.cleanChoice();
           // this.makeQueen(y_axis, x_axis);
+          this.changeTurns(this.isBlackTurn);
           //   return;
           // }
         }
@@ -440,7 +453,7 @@ export default {
       const x_axis = y.indexOf(x);
       // Analyzing chosen checker's surroundings
       // if checker is black we analyze only top line of chozen analyze block if checker is white we do vice versa
-      if (x.isBlack && !x.isQueen) {
+      if (x.isBlack && !x.isQueen && this.isBlackTurn) {
         for (let i = y_axis - 1; i < y_axis + 2; i++) {
           /* Trick is at this line in i declaration */
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
@@ -492,7 +505,7 @@ export default {
             }
           }
         }
-      } else if (x.isWhite && !x.isQueen) {
+      } else if (x.isWhite && !x.isQueen  && !this.isBlackTurn) {
         for (let i = y_axis - 1; i < y_axis + 2; i++) {
           /* Trick is at this line in i declaration */
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
@@ -541,9 +554,9 @@ export default {
             }
           }
         }
-      } else if (x.isBlack && x.isQueen) {
+      } else if (x.isBlack && x.isQueen && this.isBlackTurn) {
         this.renderQueenHints(y_axis, x_axis);
-      } else if (x.isWhite && x.isQueen) {
+      } else if (x.isWhite && x.isQueen && !this.isBlackTurn) {
         this.renderQueenHints(y_axis, x_axis);
       }
     },

@@ -64,9 +64,9 @@
 import { collection, addDoc, setDoc, doc, getDoc, getDocs, onSnapshot } from "firebase/firestore";
 import db from "../firebase.js";
 
-const unsub = onSnapshot(doc(db, "game", "field"), (doc) => {
-    console.log("Current data: ", JSON.parse(doc.data().field));
-});
+// const unsub = onSnapshot(doc(db, "game", "field"), (doc) => {
+//     console.log("Current data: ", JSON.parse(doc.data().field));
+// });
 
 export default {
   data() {
@@ -159,7 +159,7 @@ export default {
     choosingChecker(y, x) {
       this.field[this.field.indexOf(y)][y.indexOf(x)].isChosen = 1;
       if (this.field[this.field.indexOf(y)][y.indexOf(x)].isChosen)
-        console.log("chosen");
+        // console.log("chosen");
       console.log(this.field);
     },
     chosenCheckerHint(y, x) {
@@ -628,8 +628,8 @@ export default {
       try {
         const querySnapshot = await getDocs(collection(db, "game"));
         querySnapshot.forEach((doc) => {
-        console.log(Array.isArray(JSON.parse(doc.data().field)));
-        console.log(Array.isArray(this.field))
+        // console.log(Array.isArray(JSON.parse(doc.data().field)));
+        // console.log(Array.isArray(this.field))
         this.field = JSON.parse(doc.data().field);
         // this.field[5][2].isQueen = 1;
         return JSON.parse(doc.data().field);
@@ -650,7 +650,19 @@ export default {
     // console.log(Array.isArray(this.field));
   },
   watch: {
-    
+    // field: {
+    //   handler() {
+    //     const unsub = onSnapshot(doc(db, "game", "field"), (doc) => {
+    //     // console.log("Current data: ", JSON.parse(doc.data().field));
+    //       console.log('changed!');
+    //     });
+
+    //   },
+    //   deep: true,
+    // },
+    isBlackTurn() {
+      console.log('turn changed')
+    }
   }
 };
 </script>

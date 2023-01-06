@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc, getDoc } from "firebase/firestore";
 import db from "../firebase.js";
 
 export default {
@@ -205,6 +205,7 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
+            this.updateField();
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -228,6 +229,7 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
+            this.updateField();
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -251,6 +253,7 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
+            this.updateField();
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -275,6 +278,7 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
+            this.updateField();
             return;
           } else if (
             this.field[i][j].isWhite &&
@@ -298,6 +302,7 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
+            this.updateField();
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -322,6 +327,7 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
+            this.updateField();
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -345,6 +351,7 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
+            this.updateField();
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -368,6 +375,7 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
+            this.updateField();
             return;
           } else if (
             this.field[i][j].isBlack &&
@@ -391,17 +399,11 @@ export default {
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
             this.changeTurns(this.isBlackTurn);
+            this.updateField();
             return;
           } else {
             continue;
           }
-          // if (moveFlag) {
-          //   this.cleanHints();
-          //   this.cleanChoice();
-          // this.makeQueen(y_axis, x_axis);
-          this.changeTurns(this.isBlackTurn);
-          //   return;
-          // }
         }
       }
     },
@@ -596,13 +598,25 @@ export default {
         }
       }
     },
+    async updateField() {
+      try {
+        const docRef = await setDoc(doc(db, "game", "field"), {
+          field: JSON.stringify(this.field),
+        });
+        console.log('set done!');
+      } catch(e) {
+        console.log(e);
+      }
+    },
   },
   mounted() {
-    console.log("hey!");
+    // console.log("hey!");
     this.createId();
     this.initRender();
+    this.updateField(); 
+    // console.log(db);
     this.field[5][4].isQueen = 1;
-    // console.log(this.field);
+    console.log(Array.isArray(this.field));
   },
 };
 </script>

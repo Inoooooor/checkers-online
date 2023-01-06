@@ -28,18 +28,17 @@ export default {
     },
     async changeField() {
       try {
-        const docRef = await setDoc(doc(db, "users", "sfb3UeLiG5NQOlaXhscT"), {
+        const docRef = await setDoc(doc(db, "game", "field"), {
           bruh: 'loh'
         });
       } catch(e) {
         console.log(e);
       }
-
     },
   },
   mounted() {
     // this.addData();
-    this.changeField();
+    // this.changeField();
     // this.$router.push("welcome");
   },
 };

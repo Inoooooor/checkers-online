@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { collection, addDoc, setDoc, doc, getDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import db from "../firebase.js";
 
 export default {
@@ -608,9 +608,20 @@ export default {
         console.log(e);
       }
     },
+    async getDb() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "game"));
+        querySnapshot.forEach((doc) => {
+        console.log(JSON.parse(doc.data().field));
+        });
+      } catch (e) {
+        console.log('FetchErr: ' + e);
+      }
+
+    }
   },
   mounted() {
-    // console.log("hey!");
+    this.getDb();
     this.createId();
     this.initRender();
     this.updateField(); 
@@ -618,6 +629,9 @@ export default {
     this.field[5][4].isQueen = 1;
     console.log(Array.isArray(this.field));
   },
+  watch: {
+    
+  }
 };
 </script>
 

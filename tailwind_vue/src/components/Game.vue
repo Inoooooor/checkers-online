@@ -555,31 +555,30 @@ export default {
             if (!this.field[i][j].isChecker && this.field[i][j].isPlayble) {
               this.field[i][j].isHinted = 1;
             }
-            if (i < y_axis && j < x_axis) {
-              if (this.field[i][j].isBlack) {
-                for (let borderY = i, borderX = j;; borderY--, borderX--) {
-                  if (borderY < 0 || borderX < 0) break;
-                  this.field[borderY][borderX].isHinted = 0;
-                  console.log(`Above chosen nullify at y: ${borderY} and x: ${borderX}`)
-                }
-              }
-            }
-            if (i > y_axis && j > x_axis) {
-              if (this.field[i][j].isBlack) {
-                for (let borderY = i, borderX = j;; borderY++, borderX++) {
-                  if (borderY > 7 || borderX > 7) break;
-                  this.field[borderY][borderX].isHinted = 0;
-                  console.log(`Under chosen nullify at y: ${borderY} and x: ${borderX}`)
-                  // return;
-                }
-              }
+            // if (i < y_axis && j < x_axis) {
+            //   if (this.field[i][j].isBlack) {
+            //     for (let borderY = i, borderX = j;; borderY--, borderX--) {
+            //       if (borderY < 0 || borderX < 0) break;
+            //       this.field[borderY][borderX].isHinted = 0;
+            //       console.log(`Above chosen nullify at y: ${borderY} and x: ${borderX}`)
+            //     }
+            //   }
+            // }
+            // if (i > y_axis && j > x_axis) {
+            //   if (this.field[i][j].isBlack) {
+            //     for (let borderY = i, borderX = j;; borderY++, borderX++) {
+            //       if (borderY > 7 || borderX > 7) break;
+            //       this.field[borderY][borderX].isHinted = 0;
+            //       console.log(`Under chosen nullify at y: ${borderY} and x: ${borderX}`)
+            //     }
+            //   }
+            // }
+          }
+          if (y_axis + x_axis == i + j) {
+            if (!this.field[i][j].isChecker && this.field[i][j].isPlayble) {
+              this.field[i][j].isHinted = 1;
             }
           }
-          // if (y_axis + x_axis == i + j) {
-          //   if (!this.field[i][j].isChecker && this.field[i][j].isPlayble) {
-          //     this.field[i][j].isHinted = 1;
-          //   }
-          // }
           
         }
       }

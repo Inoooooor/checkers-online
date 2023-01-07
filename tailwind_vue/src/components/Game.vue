@@ -74,21 +74,29 @@ export default {
       // isChosen: 1,
       isBlackTurn: true,
       field: new Array(8).fill().map(() =>
-        new Array(8).fill().map((item, index) => ({
-          id: index,
-          isChosen: 0,
-          isChecker: 0,
-          isWhite: 0,
-          isBlack: 0,
-          isHinted: 0,
-          isPlayble: 0,
-          isEnemyNear: 0,
-          isQueen: 0,
-        }))
+      new Array(8).fill().map((item, index) => ({
+        id: index,
+        isChosen: 0,
+        isChecker: 0,
+        isWhite: 0,
+        isBlack: 0,
+        isHinted: 0,
+        isPlayble: 0,
+        isEnemyNear: 0,
+        isQueen: 0,
+      }))
       ),
+      realTimeCheckDb: onSnapshot(doc(db, "game", "field"), (doc) => {
+        console.log("data from realtime check func: ", JSON.parse(doc.data().field));
+        // this.check();
+        this.field = this.getDb();
+      }),
     };
   },
   methods: {
+    check() {
+      console.log('method works on initialization');
+    },
     changeTurns() {
       this.isBlackTurn = !this.isBlackTurn;
     },
@@ -158,9 +166,9 @@ export default {
     },
     choosingChecker(y, x) {
       this.field[this.field.indexOf(y)][y.indexOf(x)].isChosen = 1;
-      if (this.field[this.field.indexOf(y)][y.indexOf(x)].isChosen)
-        // console.log("chosen");
-      console.log(this.field);
+      // if (this.field[this.field.indexOf(y)][y.indexOf(x)].isChosen)
+      //   // console.log("chosen");
+      // console.log(this.field);
     },
     chosenCheckerHint(y, x) {
       const y_axis = this.field.indexOf(y);
@@ -616,9 +624,9 @@ export default {
         const docRef = await setDoc(doc(db, "game", "field"), {
           field: JSON.stringify(this.field),
         });
-        console.log('set done!');
+        console.log('Remote db updated!');
       } catch(e) {
-        console.log(e);
+        alert(e);
       }
     },
     async fetchRemoteField() {
@@ -638,7 +646,7 @@ export default {
         console.log('FetchErr: ' + e);
       }
 
-    }
+    },
   },
   mounted() {
     this.getDb();
@@ -650,19 +658,9 @@ export default {
     // console.log(Array.isArray(this.field));
   },
   watch: {
-    // field: {
-    //   handler() {
-    //     const unsub = onSnapshot(doc(db, "game", "field"), (doc) => {
-    //     // console.log("Current data: ", JSON.parse(doc.data().field));
-    //       console.log('changed!');
-    //     });
-
-    //   },
-    //   deep: true,
-    // },
-    isBlackTurn() {
-      console.log('turn changed')
-    }
+    // isBlackTurn() {
+    //   console.log('turn changed')
+    // }
   }
 };
 </script>

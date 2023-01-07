@@ -69,32 +69,32 @@ export default {
           await updateDoc(docRef, {
             isPlayerOneOnline: true,
           })
-          this.readOnline();
-          setTimeout(() => {
-            if (this.isBothOnline) {
-              this.$router.push('/player1')
-            } else {
-              this.show = true;
-            }
-          }, 1000)
+          this.checkOnlineForStart(playerNum);
         } else if (playerNum === 2) {
           await updateDoc(docRef, {
             isPlayerTwoOnline: true,
           })
-          this.readOnline();
-          setTimeout(() => {
-            if (this.isBothOnline) {
-              this.$router.push('/player2')
-            } else {
-              this.show = true;
-            }
-          }, 1000)
+          this.checkOnlineForStart(playerNum);
         }
 
       } catch (error) {
         console.log(error);
       }
-    }
+    },
+    checkOnlineForStart(playerNum) {
+      if (!this.isBothOnline) {
+        this.show = true;
+      }
+      
+      let interval = setInterval(() => {
+        this.readOnline();
+        console.log('Loading...');
+        if (this.isBothOnline) {
+          clearInterval(interval);
+          this.$router.push(`/player${playerNum}`);
+        }
+      }, 1000);
+    },
   },
   mounted() {
     // this.show = !this.show;

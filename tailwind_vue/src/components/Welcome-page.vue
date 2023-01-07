@@ -13,13 +13,13 @@
     </p>
   </div>
   <button
-    @click="this.$router.push('/player1')"
+    @click="updateOnlineStatus(1)"
     class="col-span-4 col-start-3 col-end-7 row-start-[9] font-mono text-2xl bg-[#CAF0F8] rounded-xl text-[#03045E]"
   >
     player 1
   </button>
   <button
-    @click="this.$router.push('/player2')"
+    @click="updateOnlineStatus(2)"
     class="col-span-4 col-start-3 col-end-7 row-start-[11] font-mono text-2xl bg-[#CAF0F8] rounded-xl text-[#03045E]"
   >
     player 2
@@ -35,30 +35,53 @@
 </template>
 
 <script>
-import { setDoc, doc, getDoc, onSnapshot } from "firebase/firestore";
+import { setDoc, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import db from "../firebase.js";
 
 export default {
   data() {
     return {
       show: false,
+      // currentOnline: 0,
     };
   },
   methods: {
-    async playersCount() {
+    async readOnline() {
       try {
         const docRef = doc(db, 'game', 'env');
         const docSnap = await getDoc(docRef);
-        let currentOnline = docSnap.data().playersOnline;
-        console.log(currentOnline);
+        const onlineFlag = docSnap.data().isPlayerOneOnline;
+        console.log(onlineFlag);
+        this.updateOnlineStatus(docRef, onlineFlag);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
+      // return currentOnline;
     },
+    async updateOnlineStatus(playerNum) {
+      const docRef = doc(db, 'game', 'env');
+      try {
+        if (playerNum === 1) {
+          this.$router.push('/player1')
+          await updateDoc(docRef, {
+            isPlayerOneOnline: true,
+          })
+          console.log('players status updated successfully')
+        } else if (playerNum === 2) {
+          this.$router.push('/player2')
+          await updateDoc(docRef, {
+            isPlayerTwoOnline: true,
+          })
+          console.log('players status updated successfully')
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
   mounted() {
     this.show = !this.show;
-    this.playersCount();
+    // this.readOnline();
   },
 };
 </script>

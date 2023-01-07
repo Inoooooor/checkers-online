@@ -654,8 +654,6 @@ export default {
     this.getDb();
     this.createId();
     this.initRender();
-    
-    console.log(this.$route.name === 'player1' ? 'you play as player 1' : 'you play as player 2')
     // this.updateRemoteField();
     // this.field[5][4].isQueen = 1;
   },

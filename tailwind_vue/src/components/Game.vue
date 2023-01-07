@@ -90,6 +90,7 @@ export default {
         console.log("data from realtime check func: ", JSON.parse(doc.data().field));
         // this.check();
         this.field = this.getDb();
+        this.changeTurns();
       }),
     };
   },
@@ -216,7 +217,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
-            this.changeTurns(this.isBlackTurn);
+            // this.changeTurns();
             this.updateRemoteField();
             // this.fetchRemoteField();
             return;
@@ -241,7 +242,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
-            this.changeTurns(this.isBlackTurn);
+            // this.changeTurns();
             this.updateRemoteField();
             // this.fetchRemoteField();
             return;
@@ -266,7 +267,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
-            this.changeTurns(this.isBlackTurn);
+            // this.changeTurns();
             this.updateRemoteField();
             // this.fetchRemoteField();
             return;
@@ -292,7 +293,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
-            this.changeTurns(this.isBlackTurn);
+            // this.changeTurns();
             this.updateRemoteField();
             // this.fetchRemoteField();
             return;
@@ -317,7 +318,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
-            this.changeTurns(this.isBlackTurn);
+            // this.changeTurns();
             this.updateRemoteField();
             // this.fetchRemoteField();
             return;
@@ -343,7 +344,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
-            this.changeTurns(this.isBlackTurn);
+            // this.changeTurns();
             this.updateRemoteField();
             // this.fetchRemoteField();
             return;
@@ -368,7 +369,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
-            this.changeTurns(this.isBlackTurn);
+            // this.changeTurns();
             this.updateRemoteField();
             // this.fetchRemoteField();
             return;
@@ -393,7 +394,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
-            this.changeTurns(this.isBlackTurn);
+            // this.changeTurns();
             this.updateRemoteField();
             // this.fetchRemoteField();
             return;
@@ -418,7 +419,7 @@ export default {
             this.cleanHints();
             this.cleanChoice();
             this.makeQueen(y_axis, x_axis);
-            this.changeTurns(this.isBlackTurn);
+            // this.changeTurns();
             this.updateRemoteField();
             // this.fetchRemoteField();
             return;
@@ -624,6 +625,7 @@ export default {
         const docRef = await setDoc(doc(db, "game", "field"), {
           field: JSON.stringify(this.field),
         });
+        // this.changeTurns();
         console.log('Remote db updated!');
       } catch(e) {
         alert(e);
@@ -652,15 +654,13 @@ export default {
     this.getDb();
     this.createId();
     this.initRender();
-    this.updateRemoteField(); 
-    // console.log(db);
+    // this.updateRemoteField(); 
     this.field[5][4].isQueen = 1;
-    // console.log(Array.isArray(this.field));
   },
   watch: {
-    // isBlackTurn() {
-    //   console.log('turn changed')
-    // }
+    isBlackTurn() {
+      console.log('turn changed')
+    }
   }
 };
 </script>

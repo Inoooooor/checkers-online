@@ -13,10 +13,16 @@
     </p>
   </div>
   <button
-    @click="this.$router.push('/game')"
+    @click="this.$router.push('/player1')"
     class="col-span-4 col-start-3 col-end-7 row-start-[9] font-mono text-2xl bg-[#CAF0F8] rounded-xl text-[#03045E]"
   >
-    Play
+    player 1
+  </button>
+  <button
+    @click="this.$router.push('/player2')"
+    class="col-span-4 col-start-3 col-end-7 row-start-[11] font-mono text-2xl bg-[#CAF0F8] rounded-xl text-[#03045E]"
+  >
+    player 2
   </button>
 </template>
 

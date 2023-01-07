@@ -477,7 +477,7 @@ export default {
       const x_axis = y.indexOf(x);
       // Analyzing chosen checker's surroundings
       // if checker is black we analyze only top line of chozen analyze block if checker is white we do vice versa
-      if (x.isBlack && !x.isQueen && this.isBlackTurn) {
+      if (x.isBlack && !x.isQueen && this.isBlackTurn && this.$route.name === 'player1') {
         for (let i = y_axis - 1; i < y_axis + 2; i++) {
           /* Trick is at this line in i declaration */
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
@@ -529,7 +529,7 @@ export default {
             }
           }
         }
-      } else if (x.isWhite && !x.isQueen  && !this.isBlackTurn) {
+      } else if (x.isWhite && !x.isQueen  && !this.isBlackTurn && this.$route.name === 'player2') {
         for (let i = y_axis - 1; i < y_axis + 2; i++) {
           /* Trick is at this line in i declaration */
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
@@ -578,9 +578,9 @@ export default {
             }
           }
         }
-      } else if (x.isBlack && x.isQueen && this.isBlackTurn) {
+      } else if (x.isBlack && x.isQueen && this.isBlackTurn && this.$route.name === 'player1') {
         this.renderQueenHints(y_axis, x_axis);
-      } else if (x.isWhite && x.isQueen && !this.isBlackTurn) {
+      } else if (x.isWhite && x.isQueen && !this.isBlackTurn && this.$route.name === 'player2') {
         this.renderQueenHints(y_axis, x_axis);
       }
     },
@@ -654,8 +654,10 @@ export default {
     this.getDb();
     this.createId();
     this.initRender();
-    // this.updateRemoteField(); 
-    this.field[5][4].isQueen = 1;
+    
+    console.log(this.$route.name === 'player1' ? 'you play as player 1' : 'you play as player 2')
+    // this.updateRemoteField();
+    // this.field[5][4].isQueen = 1;
   },
   watch: {
     isBlackTurn() {

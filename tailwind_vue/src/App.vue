@@ -19,27 +19,6 @@ export default {
     };
   },
   methods: {
-    async addData() {
-      try {
-        const docRef = await addDoc(collection(db, "users"), {
-          first: "Ada",
-          last: "Lovelace",
-          born: 1815,
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    },
-    async changeField() {
-      try {
-        const docRef = await setDoc(doc(db, "game", "field"), {
-          bruh: 'loh'
-        });
-      } catch(e) {
-        console.log(e);
-      }
-    },
   },
   mounted() {
     // this.addData();

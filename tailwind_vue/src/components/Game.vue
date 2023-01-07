@@ -89,7 +89,7 @@ export default {
       realTimeCheckDb: onSnapshot(doc(db, "game", "field"), (doc) => {
         console.log("data from realtime check func: ", JSON.parse(doc.data().field));
         // this.check();
-        this.field = this.getDb();
+        this.getDb();
         this.changeTurns();
       }),
     };
@@ -636,14 +636,10 @@ export default {
     },
     async getDb() {
       try {
-        const querySnapshot = await getDocs(collection(db, "game"));
-        querySnapshot.forEach((doc) => {
-        // console.log(Array.isArray(JSON.parse(doc.data().field)));
-        // console.log(Array.isArray(this.field))
-        this.field = JSON.parse(doc.data().field);
-        // this.field[5][2].isQueen = 1;
-        return JSON.parse(doc.data().field);
-        });
+        const docRef = doc(db, 'game', 'field');
+        const docSnap = await getDoc(docRef);
+        this.field = JSON.parse(docSnap.data().field);
+        // console.log(JSON.parse(docSnap.data().field));
       } catch (e) {
         console.log('FetchErr: ' + e);
       }

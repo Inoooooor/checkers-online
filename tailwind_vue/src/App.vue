@@ -25,6 +25,7 @@ export default {
     // this.addData();
     // this.changeField();
     // this.$router.push("welcome");
+    // console.log(this.$store.state());
   },
 };
 </script>

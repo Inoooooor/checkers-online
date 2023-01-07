@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       show: false,
-      // currentOnline: 0,
+      isBothOnline: false,
     };
   },
   methods: {
@@ -50,9 +50,13 @@ export default {
       try {
         const docRef = doc(db, 'game', 'env');
         const docSnap = await getDoc(docRef);
-        const onlineFlag = docSnap.data().isPlayerOneOnline;
-        console.log(onlineFlag);
-        this.updateOnlineStatus(docRef, onlineFlag);
+        const onlineFlag = docSnap.data();
+        this.isBothOnline = (
+          onlineFlag.isPlayerOneOnline && 
+          onlineFlag.isPlayerTwoOnline
+          ) ?
+          true :
+          false;
       } catch (error) {
         console.log(error);
       }
@@ -62,25 +66,38 @@ export default {
       const docRef = doc(db, 'game', 'env');
       try {
         if (playerNum === 1) {
-          this.$router.push('/player1')
           await updateDoc(docRef, {
             isPlayerOneOnline: true,
           })
-          console.log('players status updated successfully')
+          this.readOnline();
+          setTimeout(() => {
+            if (this.isBothOnline) {
+              this.$router.push('/player1')
+            } else {
+              this.show = true;
+            }
+          }, 1000)
         } else if (playerNum === 2) {
-          this.$router.push('/player2')
           await updateDoc(docRef, {
             isPlayerTwoOnline: true,
           })
-          console.log('players status updated successfully')
+          this.readOnline();
+          setTimeout(() => {
+            if (this.isBothOnline) {
+              this.$router.push('/player2')
+            } else {
+              this.show = true;
+            }
+          }, 1000)
         }
+
       } catch (error) {
         console.log(error);
       }
     }
   },
   mounted() {
-    this.show = !this.show;
+    // this.show = !this.show;
     // this.readOnline();
   },
 };

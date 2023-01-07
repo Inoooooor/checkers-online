@@ -24,15 +24,46 @@
   >
     player 2
   </button>
+  <Transition name="bounce">
+    <p
+      v-if="show"
+      class="font-mono font-semibold text-[#CAF0F8] tracking-[.5rem] col-start-2 col-end-[-2] row-start-7 row-span-2 grid place-items-center text-center"
+    >
+      WAITING FOR THE OPPONENT
+    </p>
+  </Transition>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      show: false,
+    };
   },
   methods: {},
+  mounted() {
+    this.show = !this.show;
+  },
 };
 </script>
 
-<style></style>
+<style>
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>

@@ -61,14 +61,23 @@
 </template>
 
 <script>
-import { collection, addDoc, setDoc, doc, getDoc, getDocs, onSnapshot } from "firebase/firestore";
+import { setDoc, doc, getDoc, onSnapshot } from "firebase/firestore";
 import db from "../firebase.js";
+import { useCounterStore } from '../stores/counter'
+
 
 // const unsub = onSnapshot(doc(db, "game", "field"), (doc) => {
 //     console.log("Current data: ", JSON.parse(doc.data().field));
 // });
 
 export default {
+  setup() {
+    const store = useCounterStore();
+    return {
+      // you can return the whole store instance to use it in the template
+      store,
+    }
+  },
   data() {
     return {
       // isChosen: 1,
@@ -87,10 +96,11 @@ export default {
       }))
       ),
       realTimeCheckDb: onSnapshot(doc(db, "game", "field"), (doc) => {
-        console.log("data from realtime check func: ", JSON.parse(doc.data().field));
-        // this.check();
+        // console.log("data from realtime check func: ", JSON.parse(doc.data().field));
         this.getDb();
         this.changeTurns();
+        // this.store.count++;
+        // console.log(this.store.count);
       }),
     };
   },
@@ -650,13 +660,13 @@ export default {
     this.getDb();
     this.createId();
     this.initRender();
-    // this.updateRemoteField();
+    this.updateRemoteField();
     // this.field[5][4].isQueen = 1;
   },
   watch: {
-    isBlackTurn() {
-      console.log('turn changed')
-    }
+    // isBlackTurn() {
+    //   console.log('turn changed')
+    // }
   }
 };
 </script>

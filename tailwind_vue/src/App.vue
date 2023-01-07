@@ -6,7 +6,7 @@
 import { RouterLink, RouterView } from "vue-router";
 import { collection, addDoc, doc, setDoc, onSnapshot } from "firebase/firestore";
 import db from "./firebase.js";
-import store from "./stores/store.js"
+import { useCounterStore } from './stores/counter'
 
 // const unsub = onSnapshot(doc(db, "game", "field"), (doc) => {
 //     console.log("Current data: ", JSON.parse(doc.data().field));
@@ -19,6 +19,14 @@ export default {
       people: [],
     };
   },
+  setup() {
+    const store = useCounterStore();
+    return {
+      // you can return the whole store instance to use it in the template
+      store,
+    }
+  },
+
   methods: {
   },
   mounted() {
@@ -26,6 +34,8 @@ export default {
     // this.changeField();
     // this.$router.push("welcome");
     // console.log(this.$store.state());
+    // this.store.count++;
+    // console.log(this.store.count);
   },
 };
 </script>

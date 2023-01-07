@@ -29,4 +29,13 @@ const router = createRouter({
   ],
 });
 
+router.beforeEach((to, from) => {
+  if(from.name === 'welcome' && to.name === 'player1') {
+    console.log('you went from welcome page to player1')
+  }
+  if(from.name === 'welcome' && to.name === 'player2') {
+    console.log('you went from welcome page to player2')
+  }
+});
+
 export default router;

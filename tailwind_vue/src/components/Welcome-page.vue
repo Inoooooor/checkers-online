@@ -35,15 +35,30 @@
 </template>
 
 <script>
+import { setDoc, doc, getDoc, onSnapshot } from "firebase/firestore";
+import db from "../firebase.js";
+
 export default {
   data() {
     return {
       show: false,
     };
   },
-  methods: {},
+  methods: {
+    async playersCount() {
+      try {
+        const docRef = doc(db, 'game', 'env');
+        const docSnap = await getDoc(docRef);
+        let currentOnline = docSnap.data().playersOnline;
+        console.log(currentOnline);
+      } catch (error) {
+        console.log(error)
+      }
+    },
+  },
   mounted() {
     this.show = !this.show;
+    this.playersCount();
   },
 };
 </script>

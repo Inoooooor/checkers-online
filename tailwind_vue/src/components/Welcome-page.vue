@@ -26,8 +26,8 @@
   </button>
   <Transition name="bounce">
     <p
-      v-if="show"
-      class="font-mono font-semibold text-[#CAF0F8] tracking-[.5rem] col-start-2 col-end-[-2] row-start-7 row-span-2 grid place-items-center text-center"
+      v-if="wait_notification"
+      class="font-mono font-semibold text-[#CAF0F8] tracking-[.5rem] col-start-2 col-end-[-2] row-start-7 row-span-2 grid place-items-center text-center animate-pulse"
     >
       WAITING FOR THE OPPONENT
     </p>
@@ -41,7 +41,7 @@ import db from "../firebase.js";
 export default {
   data() {
     return {
-      show: false,
+      wait_notification: false,
       isBothOnline: false,
     };
   },
@@ -51,6 +51,7 @@ export default {
         const docRef = doc(db, 'game', 'env');
         const docSnap = await getDoc(docRef);
         const onlineFlag = docSnap.data();
+        // console.log('reading...');
         this.isBothOnline = (
           onlineFlag.isPlayerOneOnline && 
           onlineFlag.isPlayerTwoOnline
@@ -81,23 +82,26 @@ export default {
         console.log(error);
       }
     },
-    checkOnlineForStart(playerNum) {
-      if (!this.isBothOnline) {
-        this.show = true;
+    async checkOnlineForStart(playerNum) {
+
+      // this.wait_notification = this.isBothOnline ? false : true;
+      await this.readOnline();
+      if (this.isBothOnline) {
+        this.$router.push(`/player${playerNum}`);
+      } else {
+        this.wait_notification = true;
+        let interval = setInterval(async () => {
+          await this.readOnline();
+          if (this.isBothOnline) {
+            clearInterval(interval);
+            this.$router.push(`/player${playerNum}`);
+          }
+        }, 1000);
       }
-      
-      let interval = setInterval(() => {
-        this.readOnline();
-        console.log('Loading...');
-        if (this.isBothOnline) {
-          clearInterval(interval);
-          this.$router.push(`/player${playerNum}`);
-        }
-      }, 1000);
     },
   },
   mounted() {
-    // this.show = !this.show;
+    // this.wait_notification = !this.wait_notification;
     // this.readOnline();
   },
 };

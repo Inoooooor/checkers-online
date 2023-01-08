@@ -63,11 +63,18 @@
 </template>
 
 <script>
-import { setDoc, doc, getDoc, onSnapshot } from "firebase/firestore";
+import { setDoc, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import db from "../firebase.js";
-import { useCounterStore } from '../stores/counter'
+import { useCounterStore } from "../stores/counter";
 
-
+window.onbeforeunload = async () => {
+  const docRef = doc(db, "game", "env");
+  await updateDoc(docRef, {
+    isPlayerOneOnline: false,
+    isPlayerTwoOnline: false,
+  });
+  return false;
+};
 // const unsub = onSnapshot(doc(db, "game", "field"), (doc) => {
 //     console.log("Current data: ", JSON.parse(doc.data().field));
 // });
@@ -78,39 +85,34 @@ export default {
     return {
       // you can return the whole store instance to use it in the template
       store,
-    }
+    };
   },
   data() {
     return {
       // isChosen: 1,
+      check: true,
       isBlackTurn: true,
       isPlayerTwo: false,
       field: new Array(8).fill().map(() =>
-      new Array(8).fill().map((item, index) => ({
-        id: index,
-        isChosen: 0,
-        isChecker: 0,
-        isWhite: 0,
-        isBlack: 0,
-        isHinted: 0,
-        isPlayble: 0,
-        isEnemyNear: 0,
-        isQueen: 0,
-      }))
+        new Array(8).fill().map((item, index) => ({
+          id: index,
+          isChosen: 0,
+          isChecker: 0,
+          isWhite: 0,
+          isBlack: 0,
+          isHinted: 0,
+          isPlayble: 0,
+          isEnemyNear: 0,
+          isQueen: 0,
+        }))
       ),
-      realTimeCheckDb: onSnapshot(doc(db, "game", "field"), (doc) => {
-        // console.log("data from realtime check func: ", JSON.parse(doc.data().field));
+      realTimeCheckField: onSnapshot(doc(db, "game", "field"), (doc) => {
         this.getDb();
         this.changeTurns();
-        // this.store.count++;
-        // console.log(this.store.count);
       }),
     };
   },
   methods: {
-    check() {
-      console.log('method works on initialization');
-    },
     changeTurns() {
       this.isBlackTurn = !this.isBlackTurn;
     },
@@ -490,7 +492,12 @@ export default {
       const x_axis = y.indexOf(x);
       // Analyzing chosen checker's surroundings
       // if checker is black we analyze only top line of chozen analyze block if checker is white we do vice versa
-      if (x.isBlack && !x.isQueen && this.isBlackTurn && this.$route.name === 'player1') {
+      if (
+        x.isBlack &&
+        !x.isQueen &&
+        this.isBlackTurn &&
+        this.$route.name === "player1"
+      ) {
         for (let i = y_axis - 1; i < y_axis + 2; i++) {
           /* Trick is at this line in i declaration */
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
@@ -542,7 +549,12 @@ export default {
             }
           }
         }
-      } else if (x.isWhite && !x.isQueen  && !this.isBlackTurn && this.$route.name === 'player2') {
+      } else if (
+        x.isWhite &&
+        !x.isQueen &&
+        !this.isBlackTurn &&
+        this.$route.name === "player2"
+      ) {
         for (let i = y_axis - 1; i < y_axis + 2; i++) {
           /* Trick is at this line in i declaration */
           for (let j = x_axis - 1; j < x_axis + 2; j++) {
@@ -591,9 +603,19 @@ export default {
             }
           }
         }
-      } else if (x.isBlack && x.isQueen && this.isBlackTurn && this.$route.name === 'player1') {
+      } else if (
+        x.isBlack &&
+        x.isQueen &&
+        this.isBlackTurn &&
+        this.$route.name === "player1"
+      ) {
         this.renderQueenHints(y_axis, x_axis);
-      } else if (x.isWhite && x.isQueen && !this.isBlackTurn && this.$route.name === 'player2') {
+      } else if (
+        x.isWhite &&
+        x.isQueen &&
+        !this.isBlackTurn &&
+        this.$route.name === "player2"
+      ) {
         this.renderQueenHints(y_axis, x_axis);
       }
     },
@@ -629,7 +651,6 @@ export default {
               this.field[i][j].isHinted = 1;
             }
           }
-          
         }
       }
     },
@@ -639,8 +660,8 @@ export default {
           field: JSON.stringify(this.field),
         });
         // this.changeTurns();
-        console.log('Remote db updated!');
-      } catch(e) {
+        console.log("Remote db updated!");
+      } catch (e) {
         alert(e);
       }
     },
@@ -649,14 +670,31 @@ export default {
     },
     async getDb() {
       try {
-        const docRef = doc(db, 'game', 'field');
+        const docRef = doc(db, "game", "field");
         const docSnap = await getDoc(docRef);
         this.field = JSON.parse(docSnap.data().field);
         // console.log(JSON.parse(docSnap.data().field));
       } catch (e) {
-        console.log('FetchErr: ' + e);
+        console.log("FetchErr: " + e);
       }
-
+    },
+    async disconnectPlayer() {
+      try {
+        const docRef = doc(db, "game", "env");
+        if (this.check) {
+          console.log("player1 leaves");
+          await updateDoc(docRef, {
+            isPlayerOneOnline: false,
+          });
+        }
+        // else if (this.$route.name === 'player2')
+        // console.log('player2 leaves');
+        // await updateDoc(docRef, {
+        //   isPlayerTwoOnline: false,
+        // })
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   mounted() {
@@ -664,14 +702,35 @@ export default {
     this.createId();
     this.initRender();
     this.updateRemoteField();
-    this.isPlayerTwo = this.$route.name === 'player2' ? true : false;
+    this.isPlayerTwo = this.$route.name === "player2" ? true : false;
     // this.field[5][4].isQueen = 1;
   },
+  beforeUnmount() {
+    // console.log('game turned off');
+    // this.disconnectPlayer();
+    // console.log('after updating db');
+  },
+  async beforeRouteLeave(to, from, next) {
+    const answer = window.confirm(
+      "Вы хотите уйти? Партия закончится для всех!"
+    );
+    if (answer) {
+      const docRef = doc(db, "game", "env");
+      await updateDoc(docRef, {
+        isPlayerOneOnline: false,
+        isPlayerTwoOnline: false,
+      });
+      next();
+    } else {
+      next(false);
+    }
+  },
+
   watch: {
     // isBlackTurn() {
     //   console.log('turn changed')
     // }
-  }
+  },
 };
 </script>
 

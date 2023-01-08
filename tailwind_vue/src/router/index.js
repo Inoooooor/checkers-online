@@ -15,11 +15,29 @@ const router = createRouter({
       path: "/player1",
       name: "player1",
       component: Game,
+      beforeRouteLeave(to, from, next) {
+        alert('bruh');
+        const answer = window.confirm('Вы хотите уйти? Вы блин не доиграли!')
+        if (answer) {
+          next()
+        } else {
+          next(false)
+        }
+      }
     },
     {
       path: "/player2",
       name: "player2",
       component: Game,
+      beforeRouteLeave(to, from, next) {
+        alert('bruh');
+        const answer = window.confirm('Вы хотите уйти? Вы блин не доиграли!')
+        if (answer) {
+          next()
+        } else {
+          next(false)
+        }
+      },
     },
     {
       path: "/welcome",
@@ -29,13 +47,26 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from) => {
-  if(from.name === 'welcome' && to.name === 'player1') {
-    console.log('you went from welcome page to player1')
-  }
-  if(from.name === 'welcome' && to.name === 'player2') {
-    console.log('you went from welcome page to player2')
-  }
-});
+// router.beforeEach((to, from) => {
+//   if(from.name === 'player1') {
+//     const answer = window.confirm('Вы хотите уйти? Вы не доиграли!')
+//     if (answer) {
+//       alert('You left the game!')
+//     }
+//   }
+//   if(from.name === 'welcome' && to.name === 'player2') {
+//     console.log('you went from welcome page to player2')
+//   }
+// });
+
+// beforeRouteLeave(to, from, next) {
+//   const answer = window.confirm('Вы хотите уйти? У вас есть несохранённые изменения!')
+//   if (answer) {
+//     next()
+//   } else {
+//     next(false)
+//   }
+// }
+
 
 export default router;

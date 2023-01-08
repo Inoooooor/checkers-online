@@ -5,6 +5,7 @@
   >
     <div
       id="board"
+      :class="{ opponents_board: isPlayerTwo }"
       class="bg-[#CAF0F8] col-span-full row-span-4 row-start-2 aspect-square flex flex-wrap"
     >
       <div v-for="y in field" class="w-full h-[12.5%] flex">
@@ -37,6 +38,7 @@
           <div
             @click="chosenCheckerHint(y, x)"
             id="white_queen_checker"
+            :class="{ opponents_board: isPlayerTwo }"
             class=""
             v-if="x.isWhite && x.isQueen"
           >
@@ -82,6 +84,7 @@ export default {
     return {
       // isChosen: 1,
       isBlackTurn: true,
+      isPlayerTwo: false,
       field: new Array(8).fill().map(() =>
       new Array(8).fill().map((item, index) => ({
         id: index,
@@ -661,6 +664,7 @@ export default {
     this.createId();
     this.initRender();
     this.updateRemoteField();
+    this.isPlayerTwo = this.$route.name === 'player2' ? true : false;
     // this.field[5][4].isQueen = 1;
   },
   watch: {
@@ -689,5 +693,9 @@ export default {
 .chosen {
   background: blue;
   /* background: url('../images/queen_figure_black.png'); */
+}
+
+.opponents_board {
+  transform: rotate(180deg);
 }
 </style>

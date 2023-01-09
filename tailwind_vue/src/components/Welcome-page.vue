@@ -13,12 +13,14 @@
     </p>
   </div>
   <button
+    v-if="!wait_notification"
     @click="updateOnlineStatus(1)"
     class="col-span-4 col-start-3 col-end-7 row-start-[9] font-mono text-2xl bg-[#CAF0F8] rounded-xl text-[#03045E]"
   >
     player 1
   </button>
   <button
+    v-if="!wait_notification"
     @click="updateOnlineStatus(2)"
     class="col-span-4 col-start-3 col-end-7 row-start-[11] font-mono text-2xl bg-[#CAF0F8] rounded-xl text-[#03045E]"
   >

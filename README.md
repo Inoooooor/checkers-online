@@ -1,3 +1,3 @@
 # tailwind_prac
 
-checkers-1bbc2.web.app
+https://checkers-1bbc2.web.app/
